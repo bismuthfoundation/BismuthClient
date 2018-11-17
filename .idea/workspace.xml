@@ -12,6 +12,7 @@
     <session id="-977052195">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -79,20 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bismuthclient/Makefile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="935">
               <caret line="73" column="24" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bismuthclient/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="17" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -198,6 +190,27 @@
               <item name="BismuthClient" type="462c0819:PsiDirectoryNode" />
               <item name="bismuthclient" type="462c0819:PsiDirectoryNode" />
               <item name="bismuthclient" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BismuthClient" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BismuthClient" type="462c0819:PsiDirectoryNode" />
+              <item name="bismuthclient" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BismuthClient" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BismuthClient" type="462c0819:PsiDirectoryNode" />
+              <item name="bismuthclient" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
+              <item name="_build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BismuthClient" type="b2602c69:ProjectViewProjectNode" />
+              <item name="BismuthClient" type="462c0819:PsiDirectoryNode" />
+              <item name="bismuthclient" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
+              <item name="_build" type="462c0819:PsiDirectoryNode" />
+              <item name="html" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="BismuthClient" type="b2602c69:ProjectViewProjectNode" />
@@ -368,17 +381,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bismuthclient/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bismuthclient/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="935">
           <caret line="73" column="24" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="17" selection-end-column="6" />
         </state>
       </provider>
     </entry>
