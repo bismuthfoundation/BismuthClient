@@ -16,17 +16,20 @@ LTIMEOUT = 45
 SLEN = 10
 
 
-__version__ = '0.1.7'
+__version__ = '0.1.8'
 
 
 class Connection(object):
     """Connection to a Bismuth Node. Handles auto reconnect when needed"""
 
     __slots__ = ('ipport', 'verbose', 'sdef', 'stats', 'last_activity', 'command_lock', 'raw')
-    
+
     def __init__(self, ipport, verbose=False, raw=False):
         """ipport is an (ip, port) tuple"""
         self.ipport = ipport
+        if ':' in ipport:
+            ip, port = ipport.split(':')
+            self.ipport = (ip, int(port))
         self.verbose = verbose
         self.raw = raw
         self.sdef = None
