@@ -66,7 +66,7 @@ class BismuthClient():
     def _set_cache(self, key, value):
         self._cache[key] = (time.time(), value)
 
-    def _clear_cache(self):
+    def clear_cache(self):
         self._cache = {}
 
     def list_wallets(self, scan_dir='wallets'):
@@ -129,6 +129,25 @@ class BismuthClient():
             balance = AmountFormatter(balance).to_string(leading=0)
         return balance
 
+    def status(self):
+        """
+        Returns the current status of the wallet server
+        """
+        try:
+            cached = self._get_cached('status')
+            if cached:
+                return cached
+            status = self.command("statusjson", [self.address])
+            try:
+                status['extended'] = self.command("wstatusget", [self.address])
+            except:
+                status['extended'] = None
+            self._set_cache('status', status)
+        except:
+            # TODO: Handle retry, at least error message.
+            status = {}
+        return status
+
     def load_wallet(self, wallet_file='wallet.der'):
         """
         Tries to load the wallet file
@@ -142,7 +161,7 @@ class BismuthClient():
         self._wallet = BismuthWallet(wallet_file, verbose=self.verbose)
         self.wallet_file = wallet_file
         self.address = self._wallet.address
-        self._clear_cache()
+        self.clear_cache()
 
     def new_wallet(self, wallet_file='wallet.der'):
         """
@@ -180,7 +199,7 @@ class BismuthClient():
         Returns the first connectible server.
         """
         # Use the API or bench to get the best one.
-        self.servers_list = bismuthapi.get_wallet_servers_legacy(self.initial_servers_list, self.app_log)
+        self.servers_list = bismuthapi.get_wallet_servers_legacy(self.initial_servers_list, self.app_log, minver='0.1.5')
         # Now try to connect
         if self.verbose:
             print("self.servers_list", self.servers_list)

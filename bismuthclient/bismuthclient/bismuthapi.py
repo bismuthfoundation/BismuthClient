@@ -10,11 +10,12 @@ import time
 
 # Light wallet benchmark and helpers
 from bismuthclient import lwbench
+from distutils.version import LooseVersion
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
-def get_wallet_servers_legacy(light_ip_list='', app_log=None):
+def get_wallet_servers_legacy(light_ip_list='', app_log=None, minver='0'):
     """
     Use different methods to return the best possible list of wallet servers,
     sorted
@@ -45,7 +46,9 @@ def get_wallet_servers_legacy(light_ip_list='', app_log=None):
             return ipport_list
 
         # We have a server list, order by load
-        sorted_wallets = sorted([wallet for wallet in wallets if wallet['active']], key=lambda k: (k['clients']+1)/(k['total_slots']+2))
+        sorted_wallets = sorted([wallet for wallet in wallets if wallet['active'] and
+                                 wallet.get('version', '0') >= LooseVersion(minver)],
+                                key=lambda k: (k['clients']+1)/(k['total_slots']+2))
 
         if sorted_wallets:
             return ["{}:{}".format(wallet['ip'], wallet['port']) for wallet in sorted_wallets]
