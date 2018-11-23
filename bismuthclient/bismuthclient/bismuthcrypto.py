@@ -17,9 +17,10 @@ import re
 from Cryptodome.Hash import SHA
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Signature import PKCS1_v1_5
+from os import path
 from simplecrypt import *
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
 
@@ -55,6 +56,7 @@ def keys_check(app_log, keyfile):
         app_log.warning ("{} found".format(keyfile))
     else:
         # generate key pair and an address
+
         key = RSA.generate(4096)
         #public_key = key.publickey()
 
@@ -69,6 +71,19 @@ def keys_check(app_log, keyfile):
         # export to single file
         keys_save(private_key_readable, public_key_readable, address, keyfile)
         # export to single file
+
+
+def keys_new(keyfile):
+    if path.isfile(keyfile):
+        return False
+    key = RSA.generate(4096)
+    # public_key = key.publickey()
+    private_key_readable = key.exportKey().decode("utf-8")
+    public_key_readable = key.publickey().exportKey().decode("utf-8")
+    address = hashlib.sha224(public_key_readable.encode("utf-8")).hexdigest()  # hashed public key
+    # export to single file
+    keys_save(private_key_readable, public_key_readable, address, keyfile)
+    return True
 
 
 def keys_save(private_key_readable, public_key_readable, address, file):

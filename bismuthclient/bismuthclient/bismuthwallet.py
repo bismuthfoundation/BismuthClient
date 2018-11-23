@@ -8,12 +8,14 @@ import json
 import logging
 
 from os import path
+from bismuthclient import bismuthcrypto
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Signature import PKCS1_v1_5
 from Cryptodome.Hash import SHA
 import getpass
+import hashlib
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 
 class BismuthWallet():
@@ -75,6 +77,24 @@ class BismuthWallet():
             key = RSA.importKey(content['Private Key'])
         except:  # encrypted
             self._infos['encrypted'] = True
+
+    def new(self, wallet_file='wallet.der'):
+        """
+        Creates a new wallet - only if the given file does not exist yet.
+        Does not load it.
+
+        :param wallet_file: string, a wallet file path
+        :return True or False depending on the op success
+        """
+        if self.verbose:
+            print("create", wallet_file)
+        if path.isfile(wallet_file):
+            if self.verbose:
+                print("{} Already exists, canceled".format(wallet_file))
+            return False
+        bismuthcrypto.keys_new(wallet_file)
+        return True
+
 
     @property
     def address(self):

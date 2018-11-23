@@ -4,6 +4,7 @@ A all in one Bismuth Native client that connects to local or distant wallet serv
 
 # import json
 import logging
+import time
 
 # from bismuthclient import async_client
 from bismuthclient import bismuthapi
@@ -13,13 +14,13 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 
 class BismuthClient():
 
     __slots__ = ('initial_servers_list', 'servers_list', 'app_log', '_loop', 'address', '_current_server',
-                 'wallet_file', '_wallet', '_connection', 'verbose')
+                 'wallet_file', '_wallet', '_connection', '_cache', 'verbose')
 
     def __init__(self, servers_list=None, app_log=None, loop=None, wallet_file='', verbose=False):
         """
@@ -48,7 +49,25 @@ class BismuthClient():
         self.servers_list = servers_list
         self._current_server = None
         self._connection = None
+        self._cache = {}
 
+    def _get_cached(self, key, timeout_sec=30):
+        if key in self._cache:
+            data = self._cache[key]
+            if data[0] + timeout_sec >= time.time():
+                """                
+                if self.verbose:
+                    self.app_log.info("Cache Hit on {}".format(key))
+                    # print(data[1])
+                """
+                return data[1]
+        return None
+
+    def _set_cache(self, key, value):
+        self._cache[key] = (time.time(), value)
+
+    def _clear_cache(self):
+        self._cache = {}
 
     def list_wallets(self, scan_dir='wallets'):
         """
@@ -76,6 +95,10 @@ class BismuthClient():
         if not self.address or not self._wallet:
             return []
         try:
+            key = "tx{}".format(num)
+            cached = self._get_cached(key)
+            if cached:
+                return cached
             transactions = self.command("addlistlim", [self.address, num])
         except:
             # TODO: Handle retry, at least error message.
@@ -83,6 +106,7 @@ class BismuthClient():
 
         #json = [dict(zip(["block_height", "timestamp", "address", "recipient", "amount", "signature", "public_key", "block_hash", "fee", "reward", "operation", "openfield"], tx)) for tx in transactions]
         json = [TxFormatter(tx).to_json(for_display=for_display) for tx in transactions]
+        self._set_cache(key, json)
         return json
 
     def balance(self, for_display=False):
@@ -92,8 +116,12 @@ class BismuthClient():
         if not self.address or not self._wallet:
             return []
         try:
+            cached = self._get_cached('balance')
+            if cached:
+                return cached
             balance = self.command("balanceget", [self.address])
             balance = balance[0]
+            self._set_cache('balance', balance)
         except:
             # TODO: Handle retry, at least error message.
             balance = 'N/A'
@@ -114,6 +142,18 @@ class BismuthClient():
         self._wallet = BismuthWallet(wallet_file, verbose=self.verbose)
         self.wallet_file = wallet_file
         self.address = self._wallet.address
+        self._clear_cache()
+
+    def new_wallet(self, wallet_file='wallet.der'):
+        """
+        Creates a new wallet if it does not already exists
+
+        :param wallet_file: string, a wallet.der file
+        """
+        # Default values, fail
+        wallet = BismuthWallet(wallet_file, verbose=self.verbose)
+        return wallet.new(wallet_file)
+
 
     def wallet(self, full=False):
         """

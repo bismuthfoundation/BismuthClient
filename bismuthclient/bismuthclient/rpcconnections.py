@@ -16,7 +16,7 @@ LTIMEOUT = 45
 SLEN = 10
 
 
-__version__ = '0.1.9'
+__version__ = '0.1.10'
 
 
 class Connection(object):
@@ -48,7 +48,7 @@ class Connection(object):
                 self.sdef.connect(self.ipport)
                 self.last_activity = time.time()
             except Exception as e:
-                self.sdef = None
+                self.close()
                 raise RuntimeError("Connections: {}".format(e))
 
     def _send(self, data, slen=SLEN, retry=True):
@@ -70,7 +70,7 @@ class Connection(object):
         except Exception as e:
             # send failed, try to reconnect
             # TODO: handle tries #
-            self.sdef = None
+            self.close()
             if retry:
                 if self.verbose:
                     print("Send failed ({}), trying to reconnect".format(e))
@@ -85,7 +85,7 @@ class Connection(object):
                 self.sdef.sendall(str(len(str(json.dumps(data)))).encode("utf-8").zfill(slen)+str(json.dumps(data)).encode("utf-8"))
                 return True
             except Exception as e:
-                self.sdef = None
+                self.close()
                 raise RuntimeError("Connections: {}".format(e))
 
     def _receive(self, slen=SLEN):
@@ -99,10 +99,11 @@ class Connection(object):
             if self.raw:
                 raw = data
             if not data:
+                self.close()
                 raise RuntimeError("Socket EOF")
             data = int(data)  # receive length
         except socket.timeout as e:
-            self.sdef = None
+            self.close()
             return ""
         try:
             chunks = []
@@ -124,7 +125,7 @@ class Connection(object):
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
             """
-            self.sdef = None
+            self.close()
             raise RuntimeError("Connections: {}".format(e))
 
     def command(self, command, options=None):
@@ -150,7 +151,7 @@ class Connection(object):
                 # TODO : better handling of tries and delay between
                 if self.verbose:
                     print("Error <{}> sending command, trying to reconnect.".format(e))
-                self.sdef = None
+                self.close()
                 self.check_connection()
                 self._send(command)
                 if options:
@@ -161,10 +162,13 @@ class Connection(object):
 
     def close(self):
         """Close the socket"""
-        try:
-            self.sdef.close()
-        except Exception as e:
-            pass
+        if self.sdef:
+            try:
+                self.sdef.close()
+            except Exception as e:
+                pass
+            finally:
+                self.sdef = None
 
 
 if __name__ == "__main__":
