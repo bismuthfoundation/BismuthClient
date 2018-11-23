@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/rpcconnections.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/rpcconnections.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/docs/bismuthclient.rst" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/docs/bismuthclient.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/setup.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/setup.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +12,7 @@
     <session id="-977052195">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.opened" value="2" />
@@ -104,8 +95,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bismuthclient/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="43" column="18" selection-start-line="43" selection-start-column="18" selection-end-line="43" selection-end-column="18" />
+            <state relative-caret-position="136">
+              <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -258,7 +249,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1054" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24960506" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -394,8 +384,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bismuthclient/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="43" column="18" selection-start-line="43" selection-start-column="18" selection-end-line="43" selection-end-column="18" />
+        <state relative-caret-position="136">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
         </state>
       </provider>
     </entry>

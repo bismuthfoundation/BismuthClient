@@ -16,7 +16,7 @@ LTIMEOUT = 45
 SLEN = 10
 
 
-__version__ = '0.1.8'
+__version__ = '0.1.9'
 
 
 class Connection(object):
@@ -44,6 +44,7 @@ class Connection(object):
                 if self.verbose:
                     print("Connecting to", self.ipport)
                 self.sdef = socket.socket()
+                self.sdef.settimeout(LTIMEOUT)
                 self.sdef.connect(self.ipport)
                 self.last_activity = time.time()
             except Exception as e:
@@ -128,7 +129,7 @@ class Connection(object):
 
     def command(self, command, options=None):
         """
-        Sends a command and return it's raw result.
+        Sends a command and return its raw result.
         options has to be a list.
         Each item of options will be sent separately. So If you ant to send a list, pass a list of list.
         """
@@ -149,6 +150,7 @@ class Connection(object):
                 # TODO : better handling of tries and delay between
                 if self.verbose:
                     print("Error <{}> sending command, trying to reconnect.".format(e))
+                self.sdef = None
                 self.check_connection()
                 self._send(command)
                 if options:
