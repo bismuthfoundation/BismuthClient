@@ -11,3 +11,8 @@ History
 ------------------
 
 * Alpha release
+
+0.0.21 (2018-11-26)
+------------------
+
+* Added features, still Alphha
