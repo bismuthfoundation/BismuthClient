@@ -21,3 +21,8 @@ History
 ------------------
 
 * Added features, still Alpha
+
+0.0.23 (2018-11-30)
+------------------
+
+* Fix AmountFormatter

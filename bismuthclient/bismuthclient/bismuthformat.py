@@ -41,7 +41,7 @@ class AmountFormatter():
 
     def to_string(self, decimals=3, leading=0):
         int_part = int(self.amount)
-        decimal_part = int((self.amount - float(int_part)) * (10^decimals))
+        decimal_part = int((self.amount - float(int_part)) * (10**decimals))
         decimal_part = '{decimal:0<{fill}}'.format(decimal=decimal_part, fill=decimals)
         # print("DEcimal <{}>".format(decimal_part))
         out = "{integer: >{fill}}.{decimal}".format(integer=int_part, decimal=decimal_part, fill=leading)
