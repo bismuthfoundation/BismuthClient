@@ -2,19 +2,23 @@
 A all in one Bismuth Native client that connects to local or distant wallet servers
 """
 
+import base64
 # import json
 import logging
 import time
+import sys
+import os
 
 # from bismuthclient import async_client
 from bismuthclient import bismuthapi
 from bismuthclient.bismuthwallet import BismuthWallet
+from bismuthclient import bismuthcrypto
 from bismuthclient import rpcconnections
 from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.4'
+__version__ = '0.0.41'
 
 
 class BismuthClient():
@@ -129,6 +133,35 @@ class BismuthClient():
             balance = AmountFormatter(balance).to_string(leading=0)
         return balance
 
+    def send(self, recipient: str, amount: float, operation: str='', data: str=''):
+        """
+        Sends the given tx
+        """
+        try:
+            timestamp = time.time()
+            public_key_hashed = base64.b64encode(self._wallet.public_key.encode('utf-8'))
+            signature_enc = bismuthcrypto.sign_with_key(timestamp, self.address, recipient, amount, '', '', self._wallet.key)
+            txid = signature_enc[:56]
+            tx_submit = ( '%.2f' % timestamp, self.address, recipient, '%.8f' % float(amount),
+                          str(signature_enc), str(public_key_hashed.decode("utf-8")), operation, data)
+            reply = self.command('mpinsert', [tx_submit])
+            if self.verbose:
+                print("Server replied '{}'".format(reply))
+            if reply[-1] != "Success":
+                print("Error '{}'".format(reply))
+                return None
+            if not reply:
+                print("Server timeout")
+                return None
+            return txid
+        except Exception as e:
+            print(str(e))
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+
+
+
     def status(self):
         """
         Returns the current status of the wallet server
@@ -160,8 +193,9 @@ class BismuthClient():
         self._wallet = None
         self._wallet = BismuthWallet(wallet_file, verbose=self.verbose)
         self.wallet_file = wallet_file
+        if self.address != self._wallet.address:
+            self.clear_cache()
         self.address = self._wallet.address
-        self.clear_cache()
 
     def new_wallet(self, wallet_file='wallet.der'):
         """
@@ -229,4 +263,6 @@ class BismuthClient():
         if not self._current_server:
             # TODO: failsafe if can't connect
             self.get_server()
+        if self.verbose:
+            print("command {}, {}".format(command, options))
         return self._connection.command(command, options)

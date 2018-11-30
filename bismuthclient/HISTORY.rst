@@ -15,4 +15,9 @@ History
 0.0.21 (2018-11-26)
 ------------------
 
-* Added features, still Alphha
+* Added features, still Alpha
+
+0.0.22 (2018-11-30)
+------------------
+
+* Added features, still Alpha

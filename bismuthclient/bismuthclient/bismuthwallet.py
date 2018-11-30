@@ -4,6 +4,7 @@ A class encapsulating a Bismuth wallet (keys, address, crypto functions)
 WIP
 """
 
+import base64
 import json
 import logging
 
@@ -15,17 +16,19 @@ from Cryptodome.Hash import SHA
 import getpass
 import hashlib
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 
 class BismuthWallet():
 
-    __slots__ = ('_address', '_wallet_file', 'verbose', '_encrypted', '_infos', "verbose")
+    __slots__ = ('_address', '_wallet_file', 'verbose', '_encrypted', '_infos', "verbose", "key", "public_key")
 
     def __init__(self, wallet_file='wallet.der', verbose=False):
         self._wallet_file = None
         self._address = None
         self._infos = None
+        self.key = None
+        self.public_key = ''
         self.verbose = verbose
         self.load(wallet_file)
 
@@ -74,7 +77,8 @@ class BismuthWallet():
             self._infos['address'] = content['Address']  # Warning case change!!!
             self._address = content['Address']
         try:
-            key = RSA.importKey(content['Private Key'])
+            self.key = RSA.importKey(content['Private Key'])
+            self.public_key = content['Public Key']
         except:  # encrypted
             self._infos['encrypted'] = True
 

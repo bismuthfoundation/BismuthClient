@@ -44,6 +44,41 @@ def sign_rsa(timestamp, address, recipient, amount, operation, openfield, key, p
     return return_value
 
 
+def format_transaction(timestamp: float, address: str, recipient: str, amount: float, operation: str, openfield: str):
+    """
+    Returns the formatted tuple to use as transaction part and to be signed
+    This exact formatting is MANDATORY - We sign a char buffer where every char counts.
+    """
+    str_timestamp = '%.2f' % timestamp
+    str_amount = '%.8f' % amount
+    transaction = (str_timestamp, address, recipient, str_amount, operation, openfield)
+    return transaction
+
+
+def stringify_transaction(timestamp: float, address: str, recipient: str, amount: float, operation: str, openfield: str):
+    """Formats the transaction items into the string buffer to be signed"""
+    transaction = format_transaction(timestamp, address, recipient, amount, operation, openfield)
+    return str(transaction).encode("utf-8")
+
+
+def sign_with_key(timestamp: float, address: str, recipient: str, amount: float, operation: str, openfield: str, key):
+    # Sign with key - This is a helper function
+    # Returns the encoded sig as a string
+    as_string = stringify_transaction(timestamp, address, recipient, amount, operation, openfield)
+    # print("As String1", as_string)
+    h = SHA.new(as_string)
+    signer = PKCS1_v1_5.new(key)
+    signature = signer.sign(h)
+    # print("signature1", signature)
+    signature_enc = base64.b64encode(signature)
+    verifier = PKCS1_v1_5.new(key)
+    if verifier.verify(h, signature):
+        print("OK")
+        return signature_enc.decode("utf-8")
+    else:
+        return False
+
+
 def keys_check(app_log, keyfile):
     # key maintenance
     if os.path.isfile("privkey.der") is True:
