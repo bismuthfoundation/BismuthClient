@@ -44,6 +44,14 @@ bismuthclient.bismuthformat module
     :undoc-members:
     :show-inheritance:
 
+bismuthclient.bismuthutil module
+--------------------------------
+
+.. automodule:: bismuthclient.bismuthutil
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 bismuthclient.bismuthwallet module
 ----------------------------------
 

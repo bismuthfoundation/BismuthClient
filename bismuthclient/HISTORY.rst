@@ -26,3 +26,9 @@ History
 ------------------
 
 * Fix AmountFormatter
+
+0.0.24 (2018-12-02)
+------------------
+
+* Bismuth Util Class
+* Incremental updates

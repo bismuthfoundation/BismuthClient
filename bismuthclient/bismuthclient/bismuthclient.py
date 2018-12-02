@@ -18,7 +18,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.41'
+__version__ = '0.0.43'
 
 
 class BismuthClient():
@@ -72,6 +72,10 @@ class BismuthClient():
 
     def clear_cache(self):
         self._cache = {}
+
+    @property
+    def current_server(self):
+        return self._current_server
 
     def list_wallets(self, scan_dir='wallets'):
         """
@@ -160,8 +164,6 @@ class BismuthClient():
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
 
-
-
     def status(self):
         """
         Returns the current status of the wallet server
@@ -170,9 +172,9 @@ class BismuthClient():
             cached = self._get_cached('status')
             if cached:
                 return cached
-            status = self.command("statusjson", [self.address])
+            status = self.command("statusjson")
             try:
-                status['extended'] = self.command("wstatusget", [self.address])
+                status['extended'] = self.command("wstatusget")
             except:
                 status['extended'] = None
             self._set_cache('status', status)

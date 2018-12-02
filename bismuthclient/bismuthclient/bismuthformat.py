@@ -1,10 +1,11 @@
 """
-Formatting helpers for Bismuth
+Formatting helpers and converters for Bismuth
 """
 
 import datetime
+import re
 
-__version__ = '0.0.1'
+__version__ = '0.0.3'
 
 
 # TODO: common ancestor, factorize
