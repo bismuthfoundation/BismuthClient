@@ -37,3 +37,8 @@ History
 -------------------
 
 * Fix AmountFormatter (again)
+
+0.0.26 (2018-12-05)
+-------------------
+
+* Fix Send with data

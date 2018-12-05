@@ -18,7 +18,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.43'
+__version__ = '0.0.44'
 
 
 class BismuthClient():
@@ -122,7 +122,7 @@ class BismuthClient():
         Returns the current balance for the current address.
         """
         if not self.address or not self._wallet:
-            return []
+            return 'N/A'
         try:
             cached = self._get_cached('balance')
             if cached:
@@ -144,7 +144,7 @@ class BismuthClient():
         try:
             timestamp = time.time()
             public_key_hashed = base64.b64encode(self._wallet.public_key.encode('utf-8'))
-            signature_enc = bismuthcrypto.sign_with_key(timestamp, self.address, recipient, amount, '', '', self._wallet.key)
+            signature_enc = bismuthcrypto.sign_with_key(timestamp, self.address, recipient, amount, operation, data, self._wallet.key)
             txid = signature_enc[:56]
             tx_submit = ( '%.2f' % timestamp, self.address, recipient, '%.8f' % float(amount),
                           str(signature_enc), str(public_key_hashed.decode("utf-8")), operation, data)

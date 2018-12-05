@@ -4,7 +4,7 @@
     <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthformat.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthformat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bismuthclient/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +17,11 @@
     <session id="-977052195">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
-          <entry key="project.open.time.0" value="5" />
+          <entry key="project.closed" value="7" />
+          <entry key="project.open.time.0" value="6" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -52,16 +52,16 @@
           <entry key="cfg" value="1" />
           <entry key="gitignore" value="7" />
           <entry key="md" value="165" />
-          <entry key="py" value="60" />
-          <entry key="rst" value="242" />
+          <entry key="py" value="63" />
+          <entry key="rst" value="260" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Markdown" value="165" />
           <entry key="PLAIN_TEXT" value="12" />
-          <entry key="Python" value="60" />
-          <entry key="ReST" value="242" />
+          <entry key="Python" value="63" />
+          <entry key="ReST" value="260" />
         </counts>
       </usages-collector>
     </session>
@@ -71,13 +71,16 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+            <state relative-caret-position="340">
+              <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+              <folding>
+                <element signature="e#93#106#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bismuthclient/setup.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="731">
@@ -86,7 +89,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/HISTORY.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
@@ -103,15 +106,16 @@
         <option value="$PROJECT_DIR$/bismuthclient/LICENSE" />
         <option value="$PROJECT_DIR$/bismuthclient/docs/usage.rst" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" />
         <option value="$PROJECT_DIR$/bismuthclient/.gitignore" />
         <option value="$PROJECT_DIR$/bismuthclient/setup.cfg" />
-        <option value="$PROJECT_DIR$/bismuthclient/setup.py" />
         <option value="$PROJECT_DIR$/bismuthclient/HISTORY.rst" />
+        <option value="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" />
+        <option value="$PROJECT_DIR$/bismuthclient/setup.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1920" />
     <option name="width" value="1920" />
     <option name="height" value="1054" />
   </component>
@@ -136,7 +140,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -171,6 +174,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -210,7 +214,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1054" extended-state="6" />
+    <frame x="1920" y="0" width="1920" height="1054" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16219063" />
@@ -333,10 +337,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bismuthclient/HISTORY.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+        <state relative-caret-position="340">
+          <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+          <folding>
+            <element signature="e#93#106#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -346,9 +356,6 @@
           <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/HISTORY.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
   </component>
 </project>
