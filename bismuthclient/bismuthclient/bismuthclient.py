@@ -114,6 +114,7 @@ class BismuthClient():
 
         #json = [dict(zip(["block_height", "timestamp", "address", "recipient", "amount", "signature", "public_key", "block_hash", "fee", "reward", "operation", "openfield"], tx)) for tx in transactions]
         json = [TxFormatter(tx).to_json(for_display=for_display) for tx in transactions]
+        print(json)
         self._set_cache(key, json)
         return json
 
@@ -235,7 +236,10 @@ class BismuthClient():
         Returns the first connectible server.
         """
         # Use the API or bench to get the best one.
-        self.servers_list = bismuthapi.get_wallet_servers_legacy(self.initial_servers_list, self.app_log, minver='0.1.5')
+        if not len(self.initial_servers_list):
+            self.servers_list = bismuthapi.get_wallet_servers_legacy(self.initial_servers_list, self.app_log, minver='0.1.5')
+        else:
+            self.servers_list = self.initial_servers_list
         # Now try to connect
         if self.verbose:
             print("self.servers_list", self.servers_list)

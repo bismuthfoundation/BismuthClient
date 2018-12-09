@@ -42,3 +42,8 @@ History
 -------------------
 
 * Fix Send with data
+
+0.0.27 (2018-12-09)
+-------------------
+
+* Small improvements
