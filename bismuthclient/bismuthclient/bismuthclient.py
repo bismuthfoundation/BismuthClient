@@ -18,7 +18,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.44'
+__version__ = '0.0.45'
 
 
 class BismuthClient():
@@ -76,6 +76,14 @@ class BismuthClient():
     @property
     def current_server(self):
         return self._current_server
+
+    def user_subdir(self, subdir):
+        """Returns a path to subdir in the user data directory"""
+        home = os.path.expanduser('~')
+        location = os.path.join(home, subdir)
+        if not os.path.isdir(location):
+            os.makedirs(location, exist_ok=True)
+        return location
 
     def list_wallets(self, scan_dir='wallets'):
         """

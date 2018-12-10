@@ -47,3 +47,8 @@ History
 -------------------
 
 * Small improvements
+
+0.0.28 (2018-12-10)
+-------------------
+
+* Small improvements

@@ -29,6 +29,8 @@ class TxFormatter():
             json['datetime'] = datetime.datetime.utcfromtimestamp(json['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
             json['amount'] = AmountFormatter(json['amount']).to_string()
             json['fee'] = AmountFormatter(json['fee']).to_string(leading=1)
+            if json['operation'] == '0':
+                json['operation'] = ''
         return json
 
 
