@@ -18,10 +18,9 @@ from Cryptodome.Hash import SHA
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Signature import PKCS1_v1_5
 from os import path
-from simplecrypt import *
+from bismuthclient.simplecrypt import *
 
-__version__ = '0.0.2'
-
+__version__ = '0.0.21'
 
 
 def sign_rsa(timestamp, address, recipient, amount, operation, openfield, key, public_key_hashed):

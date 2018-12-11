@@ -3,7 +3,7 @@ Formatting helpers and converters for Bismuth
 """
 
 import datetime
-import re
+# import re
 
 __version__ = '0.0.32'
 

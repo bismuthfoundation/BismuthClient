@@ -76,6 +76,14 @@ bismuthclient.rpcconnections module
     :undoc-members:
     :show-inheritance:
 
+bismuthclient.simplecrypt module
+--------------------------------
+
+.. automodule:: bismuthclient.simplecrypt
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

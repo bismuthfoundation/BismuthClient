@@ -4,19 +4,19 @@ A class encapsulating a Bismuth wallet (keys, address, crypto functions)
 WIP
 """
 
-import base64
+# import base64
 import json
-import logging
+# import logging
 
 from os import path
 from bismuthclient import bismuthcrypto
 from Cryptodome.PublicKey import RSA
-from Cryptodome.Signature import PKCS1_v1_5
-from Cryptodome.Hash import SHA
-import getpass
-import hashlib
+# from Cryptodome.Signature import PKCS1_v1_5
+# from Cryptodome.Hash import SHA
+# import getpass
+# import hashlib
 
-__version__ = '0.0.4'
+__version__ = '0.0.41'
 
 
 class BismuthWallet():

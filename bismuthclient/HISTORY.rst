@@ -52,3 +52,10 @@ History
 -------------------
 
 * Small improvements
+
+
+0.0.29 (2018-12-11)
+-------------------
+
+* Embed simplecrypt, removes need for old and unmaintained pycrypto and simplecrypt modules.
+* Add missing "requests" dependencies
