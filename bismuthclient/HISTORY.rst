@@ -59,3 +59,9 @@ History
 
 * Embed simplecrypt, removes need for old and unmaintained pycrypto and simplecrypt modules.
 * Add missing "requests" dependencies
+
+0.0.30 (2018-12-18)
+-------------------
+
+* Removed debug log
+* BismuthClient, user_subdir now is a static method

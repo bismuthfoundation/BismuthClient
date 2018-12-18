@@ -18,7 +18,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.45'
+__version__ = '0.0.46'
 
 
 class BismuthClient():
@@ -77,7 +77,8 @@ class BismuthClient():
     def current_server(self):
         return self._current_server
 
-    def user_subdir(self, subdir):
+    @staticmethod
+    def user_subdir(subdir):
         """Returns a path to subdir in the user data directory"""
         home = os.path.expanduser('~')
         location = os.path.join(home, subdir)
@@ -122,7 +123,7 @@ class BismuthClient():
 
         #json = [dict(zip(["block_height", "timestamp", "address", "recipient", "amount", "signature", "public_key", "block_hash", "fee", "reward", "operation", "openfield"], tx)) for tx in transactions]
         json = [TxFormatter(tx).to_json(for_display=for_display) for tx in transactions]
-        print(json)
+        # print(json)
         self._set_cache(key, json)
         return json
 
