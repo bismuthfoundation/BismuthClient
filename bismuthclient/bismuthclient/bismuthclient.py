@@ -12,13 +12,14 @@ import os
 # from bismuthclient import async_client
 from bismuthclient import bismuthapi
 from bismuthclient.bismuthwallet import BismuthWallet
+from bismuthclient.bismuthmultiwallet import BismuthMultiWallet
 from bismuthclient import bismuthcrypto
 from bismuthclient import rpcconnections
 from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.46'
+__version__ = '0.0.47'
 
 
 class BismuthClient():
@@ -204,6 +205,22 @@ class BismuthClient():
         self.address = None
         self._wallet = None
         self._wallet = BismuthWallet(wallet_file, verbose=self.verbose)
+        self.wallet_file = wallet_file
+        if self.address != self._wallet.address:
+            self.clear_cache()
+        self.address = self._wallet.address
+
+    def load_multi_wallet(self, wallet_file='wallet.json'):
+        """
+        Tries to load the wallet file
+
+        :param wallet_file: string, a wallet.json file
+        """
+        # TODO: Refactor
+        self.wallet_file = None
+        self.address = None
+        self._wallet = None
+        self._wallet = BismuthMultiWallet(wallet_file, verbose=self.verbose)
         self.wallet_file = wallet_file
         if self.address != self._wallet.address:
             self.clear_cache()
