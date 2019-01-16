@@ -4,8 +4,9 @@
 """Tests for `bismuthclient` package."""
 
 import pytest
+import sys
 
-
+sys.path.append('../')
 from bismuthclient import bismuthclient
 
 

@@ -79,7 +79,7 @@ class BismuthClient():
 
     @staticmethod
     def user_subdir(subdir):
-        """Returns a path to subdir in the user data directory"""
+        """Returns a path to subdir in the user data directory. Path will be created if it does not exist."""
         home = os.path.expanduser('~')
         location = os.path.join(home, subdir)
         if not os.path.isdir(location):
