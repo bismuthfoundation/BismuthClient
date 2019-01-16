@@ -99,6 +99,8 @@ class BismuthMultiWallet():
         self._master_password = ''
         if not self._locked:
             self._addresses = deepcopy(self._data['addresses'])
+        else:
+            self._addresses = []
 
     def save(self, wallet_file: str=None):
         if wallet_file is None:
@@ -192,6 +194,44 @@ class BismuthMultiWallet():
         else:
             print('1')
             self._data['addresses'].append(keys)
+        self.save()
+
+    def get_der_key(self, wallet_file: str='wallet.der', password: str=''):
+        try:
+            with open(wallet_file, 'r') as f:
+                content = json.load(f)
+                address = content['Address']  # Warning case change!!!
+                if password:
+                    content['Private Key'] = decrypt(password,b64decode(content['Private Key']))
+
+                key = RSA.importKey(content['Private Key'])
+                public_key = content['Public Key']
+                private_key = content['Private Key']
+                address = content("Address")
+                # TODO: check that address matches rebuilded pubkey
+                return {"private_key": private_key, "public_key": public_key, "address": address, "label":'',
+                        'timestamp': int(time())}
+        except:
+            # encrypted
+            return None
+
+    def import_der(self, wallet_der: str='wallet.der', label: str='', source_password: str=''):
+        """Import an existing wallet.der like file into the wallet"""
+        if self._infos['encrypted'] and self._locked:
+            # TODO: check could be done via a decorator
+            raise RuntimeError("Wallet must be unlocked")
+        key = self.get_der_key(wallet_der, password=source_password)
+        if not key:
+            raise RuntimeWarning("Error importing the der file")
+        key['label'] = label
+        self._addresses.append(key)
+        if self._infos['encrypted']:
+            content = json.dumps(key)
+            encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
+            self._data['addresses'].append(encrypted)
+        else:
+            print('1')
+            self._data['addresses'].append(key)
         self.save()
 
     @property
