@@ -62,13 +62,13 @@ def test4a_create_encrypted_multiwallet():
     wallet.unlock("some_password")
     assert wallet._addresses[0]['address'] == '59994eac4a36942fdbb05e33a353f72850f26112123840844bedb870'
 
+
 def test4b_addto_encrypted_multiwallet():
     wallet = BismuthMultiWallet("tmp/wallet3.json")
     wallet.unlock("some_password")
     wallet.new_address(label="ad2", password="2", salt="2")  # Will auto save
     for address in wallet._addresses:
         print(address['address'])
-
 
 
 if __name__ == "__main__":

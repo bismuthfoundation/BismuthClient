@@ -9,6 +9,7 @@ WIP
 from base64 import b64encode, b64decode
 import json
 import random
+from copy import deepcopy
 
 from os import path
 from time import time
@@ -97,7 +98,7 @@ class BismuthMultiWallet():
         self._locked = self._data['encrypted']
         self._master_password = ''
         if not self._locked:
-            self._addresses = self._data['addresses']
+            self._addresses = deepcopy(self._data['addresses'])
 
     def save(self, wallet_file: str=None):
         if wallet_file is None:
@@ -189,6 +190,7 @@ class BismuthMultiWallet():
             encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
             self._data['addresses'].append(encrypted)
         else:
+            print('1')
             self._data['addresses'].append(keys)
         self.save()
 

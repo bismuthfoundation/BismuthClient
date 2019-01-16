@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" line="176" />
+    <bookmark url="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" line="177" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/bismuthclient/tests/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/BismuthClient.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BismuthClient.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/tests/test_bismuthclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/tests/test_bismuthclient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/tests/tmp/wallet3.json" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/tests/tmp/wallet3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -63,18 +57,18 @@
           <entry key="LICENSE" value="4" />
           <entry key="cfg" value="1" />
           <entry key="gitignore" value="35" />
-          <entry key="json" value="5" />
+          <entry key="json" value="7" />
           <entry key="md" value="165" />
-          <entry key="py" value="4016" />
+          <entry key="py" value="4194" />
           <entry key="rst" value="508" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JSON" value="5" />
+          <entry key="JSON" value="7" />
           <entry key="Markdown" value="165" />
           <entry key="PLAIN_TEXT" value="40" />
-          <entry key="Python" value="4016" />
+          <entry key="Python" value="4194" />
           <entry key="ReST" value="508" />
         </counts>
       </usages-collector>
@@ -103,40 +97,31 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="751">
-              <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+            <state relative-caret-position="632">
+              <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
               <folding>
                 <element signature="e#89#102#0" expanded="true" />
-                <marker date="1547637381017" expanded="true" signature="2062:2064" ph="..." />
-                <marker date="1547637381017" expanded="true" signature="2063:2064" ph="..." />
+                <marker date="1547639268868" expanded="true" signature="2062:2064" ph="..." />
+                <marker date="1547639268868" expanded="true" signature="2063:2064" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bismuthclient/tests/tmp/wallet3.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="564">
-              <caret line="185" column="27" lean-forward="true" selection-start-line="185" selection-start-column="27" selection-end-line="185" selection-end-column="27" />
+            <state relative-caret-position="700">
+              <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
               <folding>
                 <element signature="e#208#247#0" expanded="true" />
-                <marker date="1547637381141" expanded="true" signature="3669:3673" ph="..." />
-                <marker date="1547637381141" expanded="true" signature="3735:4536" ph="..." />
-                <marker date="1547637381141" expanded="true" signature="5703:5709" ph="..." />
-                <marker date="1547637381141" expanded="true" signature="6444:7119" ph="..." />
+                <marker date="1547638945483" expanded="true" signature="3705:3709" ph="..." />
+                <marker date="1547638945483" expanded="true" signature="3771:4572" ph="..." />
+                <marker date="1547638945483" expanded="true" signature="5739:5745" ph="..." />
+                <marker date="1547638945483" expanded="true" signature="6480:7178" ph="..." />
               </folding>
             </state>
           </provider>
@@ -183,6 +168,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>bismuthcrypto</find>
+      <find>&quot;</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -205,8 +191,8 @@
         <option value="$PROJECT_DIR$/bismuthclient/tests/.gitignore" />
         <option value="$PROJECT_DIR$/bismuthclient/tests/tmp/wallet1.json" />
         <option value="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" />
-        <option value="$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py" />
         <option value="$PROJECT_DIR$/bismuthclient/tests/tmp/wallet3.json" />
+        <option value="$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py" />
       </list>
     </option>
   </component>
@@ -546,35 +532,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py">
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="751">
-          <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+        <state relative-caret-position="700">
+          <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
           <folding>
-            <element signature="e#89#102#0" expanded="true" />
-            <marker date="1547637381017" expanded="true" signature="2062:2064" ph="..." />
-            <marker date="1547637381017" expanded="true" signature="2063:2064" ph="..." />
+            <element signature="e#208#247#0" expanded="true" />
+            <marker date="1547638945483" expanded="true" signature="3705:3709" ph="..." />
+            <marker date="1547638945483" expanded="true" signature="3771:4572" ph="..." />
+            <marker date="1547638945483" expanded="true" signature="5739:5745" ph="..." />
+            <marker date="1547638945483" expanded="true" signature="6480:7178" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bismuthclient/tests/tmp/wallet3.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        <state relative-caret-position="34">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
+    <entry file="file://$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="185" column="27" lean-forward="true" selection-start-line="185" selection-start-column="27" selection-end-line="185" selection-end-column="27" />
+        <state relative-caret-position="632">
+          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
           <folding>
-            <element signature="e#208#247#0" expanded="true" />
-            <marker date="1547637381141" expanded="true" signature="3669:3673" ph="..." />
-            <marker date="1547637381141" expanded="true" signature="3735:4536" ph="..." />
-            <marker date="1547637381141" expanded="true" signature="5703:5709" ph="..." />
-            <marker date="1547637381141" expanded="true" signature="6444:7119" ph="..." />
+            <element signature="e#89#102#0" expanded="true" />
+            <marker date="1547639268868" expanded="true" signature="2062:2064" ph="..." />
+            <marker date="1547639268868" expanded="true" signature="2063:2064" ph="..." />
           </folding>
         </state>
       </provider>
