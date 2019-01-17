@@ -221,6 +221,9 @@ class BismuthClient():
         self.address = None
         self._wallet = None
         self._wallet = BismuthMultiWallet(wallet_file, verbose=self.verbose)
+        if len(self._wallet._data["addresses"]) == 0:
+            # Create a first address by default
+            self._wallet.new_address(label="default")
         self.wallet_file = wallet_file
         if self.address != self._wallet.address:
             self.clear_cache()

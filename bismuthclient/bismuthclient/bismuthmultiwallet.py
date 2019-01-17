@@ -43,9 +43,10 @@ class BismuthMultiWallet():
         self._master_password = ''
         self.load(wallet_file, seed=seed)
 
-    def wallet_preview(self, wallet_file: str='wallet.json'):
+    def wallet_preview(self, wallet_file: str='wallet.der'):
         """
-        Returns info about a wallet without actually loading it.
+        Returns info about a LEGACY wallet without actually loading it.
+        """
         """
         info = {'file': wallet_file, 'address': '', 'encrypted': False, 'count': 0}
         try:
@@ -56,12 +57,27 @@ class BismuthMultiWallet():
         except:
             pass
         return info
+        """
+        info = {'file': wallet_file, 'address': '', 'encrypted': False}
+        try:
+            with open(wallet_file, 'r') as f:
+                content = json.load(f)
+            info['address'] = content['Address']  # Warning case change!!!
+            try:
+                key = RSA.importKey(content['Private Key'])
+                info['encrypted'] = False
+            except:  # encrypted
+                info['encrypted'] = True
+        except:
+            pass
+        return info
 
     def info(self):
         """
         Returns a dict with info about the current wallet.
         :return:
         """
+        self._infos['count'] = len(self._data['addresses'])
         return self._infos
 
     def load(self, wallet_file: str='wallet.json', seed: str=None):
@@ -99,8 +115,10 @@ class BismuthMultiWallet():
         self._master_password = ''
         if not self._locked:
             self._addresses = deepcopy(self._data['addresses'])
+            self._address = self._addresses[0]['address']
         else:
             self._addresses = []
+            self._address = None
 
     def save(self, wallet_file: str=None):
         if wallet_file is None:
@@ -130,6 +148,10 @@ class BismuthMultiWallet():
 
     def lock(self):
         """Lock the wallet"""
+        if not self._data['encrypted']:
+            raise RuntimeWarning("You have to encrypt your wallet first")
+        if len(self._addresses) <= 0:
+            raise RuntimeWarning("Can't lock empty wallet.")
         self._master_password = ''      # forget the pass
         self._locked = self._data['encrypted']
         if self._locked:
@@ -207,11 +229,14 @@ class BismuthMultiWallet():
                 key = RSA.importKey(content['Private Key'])
                 public_key = content['Public Key']
                 private_key = content['Private Key']
-                address = content("Address")
+                address = content["Address"]
                 # TODO: check that address matches rebuilded pubkey
                 return {"private_key": private_key, "public_key": public_key, "address": address, "label":'',
                         'timestamp': int(time())}
-        except:
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
             # encrypted
             return None
 
