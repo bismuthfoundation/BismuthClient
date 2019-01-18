@@ -79,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="229" column="43" lean-forward="true" selection-start-line="229" selection-start-column="43" selection-end-line="229" selection-end-column="43" />
+              <caret line="239" column="43" lean-forward="true" selection-start-line="239" selection-start-column="43" selection-end-line="239" selection-end-column="43" />
               <folding>
                 <element signature="e#93#106#0" expanded="true" />
               </folding>
@@ -109,29 +109,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="513">
-              <caret line="242" column="35" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="35" />
+              <caret line="242" column="35" selection-start-line="242" selection-start-column="35" selection-end-line="242" selection-end-column="35" />
               <folding>
                 <element signature="e#208#247#0" expanded="true" />
-                <marker date="1547751082661" expanded="true" signature="4424:4428" ph="..." />
-                <marker date="1547751082661" expanded="true" signature="4490:5291" ph="..." />
-                <marker date="1547751082661" expanded="true" signature="6671:6677" ph="..." />
-                <marker date="1547751082661" expanded="true" signature="8104:8110" ph="..." />
-                <marker date="1547751082661" expanded="true" signature="8181:9180" ph="..." />
-                <marker date="1547751082661" expanded="true" signature="9271:10059" ph="..." />
+                <marker date="1547795001821" expanded="true" signature="4424:4428" ph="..." />
+                <marker date="1547795001821" expanded="true" signature="4490:5291" ph="..." />
+                <marker date="1547795001821" expanded="true" signature="6671:6677" ph="..." />
+                <marker date="1547795001821" expanded="true" signature="8104:8110" ph="..." />
+                <marker date="1547795001821" expanded="true" signature="8181:9180" ph="..." />
+                <marker date="1547795001821" expanded="true" signature="11051:11418" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthwallet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="724">
-              <caret line="82" column="43" lean-forward="true" selection-start-line="74" selection-start-column="8" selection-end-line="82" selection-end-column="43" />
+            <state relative-caret-position="350">
+              <caret line="66" column="38" lean-forward="true" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
               <folding>
                 <element signature="e#103#114#0" expanded="true" />
               </folding>
@@ -534,7 +534,7 @@
     <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="229" column="43" lean-forward="true" selection-start-line="229" selection-start-column="43" selection-end-line="229" selection-end-column="43" />
+          <caret line="239" column="43" lean-forward="true" selection-start-line="239" selection-start-column="43" selection-end-line="239" selection-end-column="43" />
           <folding>
             <element signature="e#93#106#0" expanded="true" />
           </folding>
@@ -552,28 +552,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthwallet.py">
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="724">
-          <caret line="82" column="43" lean-forward="true" selection-start-line="74" selection-start-column="8" selection-end-line="82" selection-end-column="43" />
+        <state relative-caret-position="513">
+          <caret line="242" column="35" selection-start-line="242" selection-start-column="35" selection-end-line="242" selection-end-column="35" />
           <folding>
-            <element signature="e#103#114#0" expanded="true" />
+            <element signature="e#208#247#0" expanded="true" />
+            <marker date="1547795001821" expanded="true" signature="4424:4428" ph="..." />
+            <marker date="1547795001821" expanded="true" signature="4490:5291" ph="..." />
+            <marker date="1547795001821" expanded="true" signature="6671:6677" ph="..." />
+            <marker date="1547795001821" expanded="true" signature="8104:8110" ph="..." />
+            <marker date="1547795001821" expanded="true" signature="8181:9180" ph="..." />
+            <marker date="1547795001821" expanded="true" signature="11051:11418" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthwallet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="242" column="35" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="35" />
+        <state relative-caret-position="350">
+          <caret line="66" column="38" lean-forward="true" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
           <folding>
-            <element signature="e#208#247#0" expanded="true" />
-            <marker date="1547751082661" expanded="true" signature="4424:4428" ph="..." />
-            <marker date="1547751082661" expanded="true" signature="4490:5291" ph="..." />
-            <marker date="1547751082661" expanded="true" signature="6671:6677" ph="..." />
-            <marker date="1547751082661" expanded="true" signature="8104:8110" ph="..." />
-            <marker date="1547751082661" expanded="true" signature="8181:9180" ph="..." />
-            <marker date="1547751082661" expanded="true" signature="9271:10059" ph="..." />
+            <element signature="e#103#114#0" expanded="true" />
           </folding>
         </state>
       </provider>

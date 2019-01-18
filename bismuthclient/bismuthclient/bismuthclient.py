@@ -19,7 +19,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.47'
+__version__ = '0.0.48'
 
 
 class BismuthClient():
@@ -146,6 +146,8 @@ class BismuthClient():
             balance = 'N/A'
         if for_display:
             balance = AmountFormatter(balance).to_string(leading=0)
+        if balance == '0E-8':
+            balance = 0.000
         return balance
 
     def send(self, recipient: str, amount: float, operation: str='', data: str=''):
@@ -225,6 +227,14 @@ class BismuthClient():
             # Create a first address by default
             self._wallet.new_address(label="default")
         self.wallet_file = wallet_file
+        if self.address != self._wallet.address:
+            self.clear_cache()
+        self.address = self._wallet.address
+
+    def set_address(self, address: str=''):
+        if not type(self._wallet) == BismuthMultiWallet:
+            raise RuntimeWarning("Not a Multiwallet")
+        self._wallet.set_address(address)
         if self.address != self._wallet.address:
             self.clear_cache()
         self.address = self._wallet.address

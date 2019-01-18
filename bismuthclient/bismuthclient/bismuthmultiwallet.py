@@ -240,6 +240,37 @@ class BismuthMultiWallet():
             # encrypted
             return None
 
+    def set_address(self, address: str=''):
+        """Select an address from the wallet"""
+        if self._infos['encrypted'] and self._locked:
+            # TODO: check could be done via a decorator
+            raise RuntimeError("Wallet must be unlocked")
+        if not self.is_address_in_wallet(address):
+            raise RuntimeError("Duplicate address")
+        key = self.get_key(address)
+        self.key = RSA.importKey(key['private_key'])
+        self.public_key = key['public_key']
+        self._address = address
+        self._infos['address'] = address
+
+    def is_address_in_wallet(self, address: str=''):
+        if self._infos['encrypted'] and self._locked:
+            # TODO: check could be done via a decorator
+            raise RuntimeError("Wallet must be unlocked")
+        for key in self._addresses:
+            if address == key['address']:
+                return True
+        return False
+
+    def get_key(self, address: str=''):
+        if self._infos['encrypted'] and self._locked:
+            # TODO: check could be done via a decorator
+            raise RuntimeError("Wallet must be unlocked")
+        for key in self._addresses:
+            if address == key['address']:
+                return key
+        return None
+
     def import_der(self, wallet_der: str='wallet.der', label: str='', source_password: str=''):
         """Import an existing wallet.der like file into the wallet"""
         if self._infos['encrypted'] and self._locked:
@@ -249,6 +280,8 @@ class BismuthMultiWallet():
         if not key:
             raise RuntimeWarning("Error importing the der file")
         key['label'] = label
+        if self.is_address_in_wallet(key['address']):
+            raise RuntimeError("Duplicate address")
         self._addresses.append(key)
         if self._infos['encrypted']:
             content = json.dumps(key)
