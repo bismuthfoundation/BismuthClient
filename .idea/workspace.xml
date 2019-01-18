@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="239" column="43" lean-forward="true" selection-start-line="239" selection-start-column="43" selection-end-line="239" selection-end-column="43" />
+              <caret line="254" column="43" lean-forward="true" selection-start-line="254" selection-start-column="43" selection-end-line="254" selection-end-column="43" />
               <folding>
                 <element signature="e#93#106#0" expanded="true" />
               </folding>
@@ -148,7 +148,7 @@
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1904">
-              <caret line="124" column="12" selection-start-line="124" selection-start-column="4" selection-end-line="124" selection-end-column="12" />
+              <caret line="139" column="12" selection-start-line="139" selection-start-column="4" selection-end-line="139" selection-end-column="12" />
               <folding>
                 <element signature="e#150#163#0" expanded="true" />
               </folding>
@@ -509,7 +509,7 @@
     <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1904">
-          <caret line="124" column="12" selection-start-line="124" selection-start-column="4" selection-end-line="124" selection-end-column="12" />
+          <caret line="139" column="12" selection-start-line="139" selection-start-column="4" selection-end-line="139" selection-end-column="12" />
           <folding>
             <element signature="e#150#163#0" expanded="true" />
           </folding>
@@ -534,7 +534,7 @@
     <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="239" column="43" lean-forward="true" selection-start-line="239" selection-start-column="43" selection-end-line="239" selection-end-column="43" />
+          <caret line="254" column="43" lean-forward="true" selection-start-line="254" selection-start-column="43" selection-end-line="254" selection-end-column="43" />
           <folding>
             <element signature="e#93#106#0" expanded="true" />
           </folding>

@@ -177,6 +177,21 @@ class BismuthClient():
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
 
+    def sign(self, message: str):
+        """
+        Signs the given message
+        """
+        try:
+            signature = bismuthcrypto.sign_message_with_key(message, self._wallet.key)
+            return signature
+        except Exception as e:
+            print(str(e))
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            raise
+
+
     def status(self):
         """
         Returns the current status of the wallet server

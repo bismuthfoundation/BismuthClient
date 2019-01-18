@@ -22,7 +22,7 @@ from os import path
 from bismuthclient.simplecrypt import *
 
 
-__version__ = '0.0.22'
+__version__ = '0.0.23'
 
 
 def sign_rsa(timestamp, address, recipient, amount, operation, openfield, key, public_key_hashed):
@@ -75,6 +75,21 @@ def sign_with_key(timestamp: float, address: str, recipient: str, amount: float,
     verifier = PKCS1_v1_5.new(key)
     if verifier.verify(h, signature):
         print("OK")
+        return signature_enc.decode("utf-8")
+    else:
+        return False
+
+
+def sign_message_with_key(message: str, key):
+    # Sign with key - This is a helper function
+    # Returns the b64 encoded sig as a string
+    h = SHA.new(message.encode('utf-8'))
+    signer = PKCS1_v1_5.new(key)
+    signature = signer.sign(h)
+    signature_enc = base64.b64encode(signature)
+    verifier = PKCS1_v1_5.new(key)
+    if verifier.verify(h, signature):
+        # print("OK")
         return signature_enc.decode("utf-8")
     else:
         return False
