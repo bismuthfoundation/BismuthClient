@@ -116,7 +116,10 @@ class BismuthMultiWallet():
         self._master_password = ''
         if not self._locked:
             self._addresses = deepcopy(self._data['addresses'])
-            self._address = self._addresses[0]['address']
+            try:
+                self._address = self._addresses[0]['address']
+            except:
+                self._address = None
         else:
             self._addresses = []
             self._address = None

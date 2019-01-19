@@ -72,3 +72,8 @@ History
 * BismuthMultiWallet class
 * Various fixes and addition to support Tornado Wallet
 
+0.0.32 (2019-01-19)
+-------------------
+
+* Bugfix
+
