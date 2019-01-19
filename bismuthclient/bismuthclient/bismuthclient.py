@@ -19,7 +19,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.48'
+__version__ = '0.0.49'
 
 
 class BismuthClient():

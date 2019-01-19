@@ -17,7 +17,7 @@ from bismuthclient import bismuthcrypto
 from bismuthclient.simplecrypt import encrypt, decrypt
 from Cryptodome.PublicKey import RSA
 # from Cryptodome.Signature import PKCS1_v1_5
-# from Cryptodome.Hash import SHA
+# from Cryptodome.Hash import SHA256
 # import getpass
 # import hashlib
 import os, sys
@@ -109,6 +109,7 @@ class BismuthMultiWallet():
             self._infos['address'] = ''
             self._address = ''
         self._infos['encrypted'] = self._data['encrypted']
+        self._infos['spend'] = self._data['spend']
         self._wallet_file = wallet_file
         # If our wallet
         self._locked = self._data['encrypted']
@@ -126,6 +127,9 @@ class BismuthMultiWallet():
         with open(wallet_file, 'w') as f:
             json.dump(self._data, f)
 
+    def password_ok(self, password: str):
+        return password == self._master_password
+
     def encrypt(self, password:str='', current_password:str=None):
         """Encrypt - or re-encrypt """
         if len(self._addresses) <= 0:
@@ -141,6 +145,8 @@ class BismuthMultiWallet():
             encrypted_addresses.append(b64encode(encrypt(password, content)).decode('utf-8'))
         self._data['addresses'] = encrypted_addresses
         self._data['encrypted'] = True
+        encrypted = b64encode(encrypt(self._master_password, self._data['spend'])).decode('utf-8')
+        self._data['spend'] = encrypted
         self.save()
         self._master_password = password
         self._infos['encrypted'] = True
@@ -173,6 +179,9 @@ class BismuthMultiWallet():
             self._addresses = addresses
             self._master_password = password
             self._locked = False
+            # Now decode the spend
+            decoded = json.loads(decrypt(password, b64decode(self._data['spend'].encode('utf-8'))).decode('utf-8'))
+            self._infos['spend'] = decoded
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -216,6 +225,22 @@ class BismuthMultiWallet():
         else:
             print('1')
             self._data['addresses'].append(keys)
+        self.save()
+
+    def set_spend(self, spend_type:str, spend_value: str, password: str=''):
+        """Saves the spend protection if the pass is ok"""
+        if not self.password_ok(password):
+            raise RuntimeWarning("Password does not seem to match")
+        if spend_type == 'None':
+            spend_type = None
+        spend = {'type': spend_type, 'value': spend_value}
+        if self._infos['encrypted']:
+            content = json.dumps(spend)
+            encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
+            self._data['spend'] = encrypted
+        else:
+            self._data['spend'] = spend
+        self._infos['spend'] = spend
         self.save()
 
     def get_der_key(self, wallet_file: str='wallet.der', password: str=''):

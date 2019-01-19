@@ -65,3 +65,10 @@ History
 
 * Removed debug log
 * BismuthClient, user_subdir now is a static method
+
+0.0.31 (2019-01-19)
+-------------------
+
+* BismuthMultiWallet class
+* Various fixes and addition to support Tornado Wallet
+
