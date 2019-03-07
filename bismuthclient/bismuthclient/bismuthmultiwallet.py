@@ -22,7 +22,7 @@ from Cryptodome.PublicKey import RSA
 # import hashlib
 import os, sys
 
-__version__ = '0.0.2'
+__version__ = '0.0.4'
 
 
 class BismuthMultiWallet():
@@ -143,22 +143,26 @@ class BismuthMultiWallet():
             # TODO
             raise RuntimeWarning("TODO: decrypt and re-encrypt - WIP")
         encrypted_addresses = []
-        for address in self._addresses:
-            content = json.dumps(address)
-            encrypted_addresses.append(b64encode(encrypt(password, content)).decode('utf-8'))
-        self._data['addresses'] = encrypted_addresses
-        self._data['encrypted'] = True
-        encrypted = b64encode(encrypt(self._master_password, self._data['spend'])).decode('utf-8')
-        self._data['spend'] = encrypted
-        self.save()
-        self._master_password = password
-        self._infos['encrypted'] = True
-        self._locked = False
+        try:
+            for address in self._addresses:
+                content = json.dumps(address)
+                encrypted_addresses.append(b64encode(encrypt(password, content)).decode('utf-8'))
+            encrypted = b64encode(encrypt(password, json.dumps(self._data['spend']))).decode('utf-8')
+
+            self._data['addresses'] = encrypted_addresses
+            self._data['encrypted'] = True
+            self._data['spend'] = encrypted
+            self.save()
+            self._master_password = password
+            self._infos['encrypted'] = True
+            self._locked = False
+        except:
+            raise
 
     def lock(self):
         """Lock the wallet"""
         if not self._data['encrypted']:
-            raise RuntimeWarning("You have to encrypt your wallet first")
+            raise RuntimeWarning("You have to encrypt your wallet first to use this feature")
         if len(self._addresses) <= 0:
             raise RuntimeWarning("Can't lock empty wallet.")
         self._master_password = ''      # forget the pass
@@ -166,6 +170,7 @@ class BismuthMultiWallet():
         if self._locked:
             # If wallet was encrypted, then forget the addresses also.
             self._addresses = []
+            self._address = None
 
     def unlock(self, password:str):
         """Sets the master password and unlocks the wallet"""

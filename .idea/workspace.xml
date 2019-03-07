@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" line="187" />
+    <bookmark url="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" line="195" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/docs/bismuthclient.rst" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/docs/bismuthclient.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bismuthclient/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,13 +20,13 @@
     <session id="-977052195">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="14" />
-          <entry key="project.open.time.0" value="8" />
-          <entry key="project.open.time.1" value="2" />
+          <entry key="project.closed" value="17" />
+          <entry key="project.open.time.0" value="9" />
+          <entry key="project.open.time.1" value="3" />
           <entry key="project.open.time.2" value="3" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.opened" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -60,8 +60,8 @@
           <entry key="gitignore" value="35" />
           <entry key="json" value="7" />
           <entry key="md" value="165" />
-          <entry key="py" value="4942" />
-          <entry key="rst" value="613" />
+          <entry key="py" value="4943" />
+          <entry key="rst" value="623" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -69,19 +69,18 @@
           <entry key="JSON" value="7" />
           <entry key="Markdown" value="165" />
           <entry key="PLAIN_TEXT" value="40" />
-          <entry key="Python" value="4942" />
-          <entry key="ReST" value="613" />
+          <entry key="Python" value="4943" />
+          <entry key="ReST" value="623" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+            <state relative-caret-position="-3570">
               <folding>
                 <element signature="e#93#106#0" expanded="true" />
               </folding>
@@ -92,7 +91,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="853">
+            <state relative-caret-position="1173">
               <caret line="71" selection-start-line="71" selection-end-line="71" />
               <folding>
                 <marker date="1547639268868" expanded="true" signature="2062:2064" ph="..." />
@@ -105,13 +104,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="267" column="35" selection-start-line="267" selection-start-column="35" selection-end-line="267" selection-end-column="35" />
+            <state relative-caret-position="4437">
+              <caret line="275" column="35" selection-start-line="275" selection-start-column="35" selection-end-line="275" selection-end-column="35" />
               <folding>
                 <element signature="e#208#247#0" expanded="true" />
-                <marker date="1547840850872" expanded="true" signature="9276:9282" ph="..." />
-                <marker date="1547840850872" expanded="true" signature="9353:10352" ph="..." />
-                <marker date="1547840850872" expanded="true" signature="12223:12590" ph="..." />
+                <marker date="1547923427901" expanded="true" signature="9498:9504" ph="..." />
+                <marker date="1547923427901" expanded="true" signature="9575:10574" ph="..." />
               </folding>
             </state>
           </provider>
@@ -120,7 +118,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthwallet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
+            <state relative-caret-position="1037">
               <caret line="66" column="38" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
               <folding>
                 <element signature="e#103#114#0" expanded="true" />
@@ -138,7 +136,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/HISTORY.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
@@ -151,7 +149,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1904">
+            <state relative-caret-position="2159">
               <caret line="139" column="12" selection-start-line="139" selection-start-column="4" selection-end-line="139" selection-end-column="12" />
               <folding>
                 <element signature="e#150#163#0" expanded="true" />
@@ -163,8 +161,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/rpcconnections.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2074">
-              <caret line="125" column="52" selection-start-line="123" selection-start-column="11" selection-end-line="125" selection-end-column="52" />
+            <state relative-caret-position="751">
+              <caret line="173" selection-start-line="173" selection-end-line="173" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -204,8 +202,8 @@
         <option value="$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py" />
         <option value="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" />
         <option value="$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py" />
-        <option value="$PROJECT_DIR$/bismuthclient/setup.py" />
         <option value="$PROJECT_DIR$/bismuthclient/HISTORY.rst" />
+        <option value="$PROJECT_DIR$/bismuthclient/setup.py" />
       </list>
     </option>
   </component>
@@ -235,7 +233,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -271,6 +268,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -497,29 +495,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/simplecrypt.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1904">
-          <caret line="139" column="12" selection-start-line="139" selection-start-column="4" selection-end-line="139" selection-end-column="12" />
-          <folding>
-            <element signature="e#150#163#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/rpcconnections.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2074">
-          <caret line="125" column="52" selection-start-line="123" selection-start-column="11" selection-end-line="125" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthformat.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Bismuth-temp/wallet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-969" />
@@ -527,7 +502,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bismuthclient/tests/test_bismuthmultiwallet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="853">
+        <state relative-caret-position="1173">
           <caret line="71" selection-start-line="71" selection-end-line="71" />
           <folding>
             <marker date="1547639268868" expanded="true" signature="2062:2064" ph="..." />
@@ -536,9 +511,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4437">
+          <caret line="275" column="35" selection-start-line="275" selection-start-column="35" selection-end-line="275" selection-end-column="35" />
+          <folding>
+            <element signature="e#208#247#0" expanded="true" />
+            <marker date="1547923427901" expanded="true" signature="9498:9504" ph="..." />
+            <marker date="1547923427901" expanded="true" signature="9575:10574" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthwallet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
+        <state relative-caret-position="1037">
           <caret line="66" column="38" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
           <folding>
             <element signature="e#103#114#0" expanded="true" />
@@ -546,28 +533,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py">
+    <entry file="file://$PROJECT_DIR$/bismuthclient/HISTORY.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/simplecrypt.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthcrypto.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="267" column="35" selection-start-line="267" selection-start-column="35" selection-end-line="267" selection-end-column="35" />
+        <state relative-caret-position="2159">
+          <caret line="139" column="12" selection-start-line="139" selection-start-column="4" selection-end-line="139" selection-end-column="12" />
           <folding>
-            <element signature="e#208#247#0" expanded="true" />
-            <marker date="1547840850872" expanded="true" signature="9276:9282" ph="..." />
-            <marker date="1547840850872" expanded="true" signature="9353:10352" ph="..." />
-            <marker date="1547840850872" expanded="true" signature="12223:12590" ph="..." />
+            <element signature="e#150#163#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding>
-            <element signature="e#93#106#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthformat.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/bismuthclient/setup.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -576,8 +559,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bismuthclient/HISTORY.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/rpcconnections.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="751">
+          <caret line="173" selection-start-line="173" selection-end-line="173" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthclient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3570">
+          <folding>
+            <element signature="e#93#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
