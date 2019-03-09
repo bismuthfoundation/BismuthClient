@@ -25,7 +25,7 @@ __version__ = '0.0.50'
 class BismuthClient():
 
     __slots__ = ('initial_servers_list', 'servers_list', 'app_log', '_loop', 'address', '_current_server',
-                 'wallet_file', '_wallet', '_connection', '_cache', 'verbose')
+                 'wallet_file', '_wallet', '_connection', '_cache', 'verbose', 'full_servers_list')
 
     def __init__(self, servers_list=None, app_log=None, loop=None, wallet_file='', verbose=False):
         """
@@ -52,6 +52,7 @@ class BismuthClient():
         self.address = None
         self.load_wallet(wallet_file)
         self.servers_list = servers_list
+        self.full_servers_list = None
         self._current_server = None
         self._connection = None
         self._cache = {}
@@ -191,7 +192,6 @@ class BismuthClient():
             print(exc_type, fname, exc_tb.tb_lineno)
             raise
 
-
     def status(self):
         """
         Returns the current status of the wallet server
@@ -280,7 +280,9 @@ class BismuthClient():
         connected = False
         if self._connection:
             connected = bool(self._connection.sdef)
-        info = {"wallet": self.wallet_file, "address": self.address, "server": self._current_server, "servers_list": self.servers_list, "connected": connected}
+        info = {"wallet": self.wallet_file, "address": self.address, "server": self._current_server,
+                "servers_list": self.servers_list, "full_servers_list": self.full_servers_list,
+                "connected": connected}
         return info
 
     def get_server(self):
@@ -291,9 +293,13 @@ class BismuthClient():
         """
         # Use the API or bench to get the best one.
         if not len(self.initial_servers_list):
-            self.servers_list = bismuthapi.get_wallet_servers_legacy(self.initial_servers_list, self.app_log, minver='0.1.5')
+            self.full_servers_list = bismuthapi.get_wallet_servers_legacy(self.initial_servers_list, self.app_log, minver='0.1.5', as_dict=True)
+            self.servers_list=["{}:{}".format(server['ip'], server['port']) for server in self.full_servers_list]
         else:
             self.servers_list = self.initial_servers_list
+            self.full_servers_list = [{"ip": server.split(':')[0], "port": server.split(':')[1],
+                                       'load':'N/A', 'height': 'N/A'}
+                                      for server in self.servers_list]
         # Now try to connect
         if self.verbose:
             print("self.servers_list", self.servers_list)
@@ -311,6 +317,40 @@ class BismuthClient():
         self._connection = None
         # TODO: raise
         return None
+
+    def refresh_server_list(self):
+        """
+        Gets info from api, add to previous config list.
+        :return:
+        """
+        backup = list(self.full_servers_list)
+        self.full_servers_list = bismuthapi.get_wallet_servers_legacy(self.initial_servers_list, self.app_log,
+                                                                      minver='0.1.5', as_dict=True)
+        for server in backup:
+            is_there = False
+            for present in self.full_servers_list:
+                if server['ip'] == present['ip'] and server['port'] == present['port']:
+                    is_there=True
+            if not is_there:
+                self.full_servers_list.append(server)
+        self.servers_list = ["{}:{}".format(server['ip'], server['port']) for server in self.full_servers_list]
+
+    def set_server(self, ipport):
+        """
+        Tries to connect and use the given server
+        :param ipport:
+        :return:
+        """
+        if not lwbench.connectible(ipport):
+            self._current_server = None
+            self._connection = None
+            return False
+        self._current_server = ipport
+        # TODO: if self._loop, use async version
+        if self.verbose:
+            print("connect server", ipport)
+        self._connection = rpcconnections.Connection(ipport, verbose=self.verbose)
+        return ipport
 
     def command(self, command, options=None):
         """

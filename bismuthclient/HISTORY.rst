@@ -87,3 +87,10 @@ History
 
 * Bugfix
 
+0.0.35 (2019-03-09)
+-------------------
+
+* More info from API
+* Full server list property with load and height
+* refresh_server_list method
+

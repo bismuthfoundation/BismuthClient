@@ -15,7 +15,7 @@ from distutils.version import LooseVersion
 __version__ = '0.0.2'
 
 
-def get_wallet_servers_legacy(light_ip_list='', app_log=None, minver='0'):
+def get_wallet_servers_legacy(light_ip_list='', app_log=None, minver='0', as_dict=False):
     """
     Use different methods to return the best possible list of wallet servers,
     sorted
@@ -51,7 +51,13 @@ def get_wallet_servers_legacy(light_ip_list='', app_log=None, minver='0'):
                                 key=lambda k: (k['clients']+1)/(k['total_slots']+2))
 
         if sorted_wallets:
-            return ["{}:{}".format(wallet['ip'], wallet['port']) for wallet in sorted_wallets]
+            if as_dict:
+                return [{"ip":wallet['ip'], "port":wallet['port'],
+                        "load": "{:.0f}".format((wallet['clients']+1)*100/(wallet['total_slots']+2)),
+                         "height": wallet['height']}
+                        for wallet in sorted_wallets]
+            else:
+                return ["{}:{}".format(wallet['ip'], wallet['port']) for wallet in sorted_wallets]
 
         # If we get here, all hope is lost!
         app_log.warning("No connectible server... let try again in a few sec")
