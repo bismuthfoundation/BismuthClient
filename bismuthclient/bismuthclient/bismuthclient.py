@@ -8,6 +8,7 @@ import logging
 import time
 import sys
 import os
+from datetime import timedelta
 
 # from bismuthclient import async_client
 from bismuthclient import bismuthapi
@@ -201,6 +202,11 @@ class BismuthClient():
             if cached:
                 return cached
             status = self.command("statusjson")
+            try:
+                status['uptime_human'] = str(timedelta(seconds=status['uptime']))
+            except Exception as e:
+                print("yoyo", e)
+                status['uptime_human'] = 'N/A'
             try:
                 status['extended'] = self.command("wstatusget")
             except:

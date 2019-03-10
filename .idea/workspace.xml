@@ -4,11 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/bismuthclient/bismuthclient/bismuthmultiwallet.py" line="195" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/HISTORY.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bismuthclient/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/bismuthclient/setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="07d6524d-7286-4fc8-8177-fe8f15647885" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -307,7 +303,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1919" y="-1" width="1922" height="1060" extended-state="6" />
+    <frame x="1919" y="-1" width="1922" height="1060" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16219063" />
