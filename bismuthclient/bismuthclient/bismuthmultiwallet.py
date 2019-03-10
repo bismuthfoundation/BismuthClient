@@ -235,6 +235,20 @@ class BismuthMultiWallet():
             self._data['addresses'].append(keys)
         self.save()
 
+    def set_label(self, address:str ='', label: str=''):
+        """
+        Add a new address to the wallet (and save it)
+        """
+        if self._infos['encrypted'] and self._locked:
+            raise RuntimeError("Wallet must be unlocked")
+        #print(self._data['addresses'])
+        #print(self._data)
+        for i, single_address in enumerate(self._data['addresses']):
+            if single_address['address'] == address:
+                self._data['addresses'][i]['label'] = label
+                self._addresses[i]['label'] = label
+        self.save()
+
     def set_spend(self, spend_type:str, spend_value: str, password: str=''):
         """Saves the spend protection if the pass is ok"""
         if not self.password_ok(password):

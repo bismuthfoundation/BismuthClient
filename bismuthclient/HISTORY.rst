@@ -94,3 +94,8 @@ History
 * Full server list property with load and height
 * refresh_server_list method
 
+0.0.36 (2019-03-10)
+-------------------
+
+* Edit Address labels
+
