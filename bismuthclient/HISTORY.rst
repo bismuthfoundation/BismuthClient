@@ -105,3 +105,12 @@ History
 
 * Fix labels with encrypted wallets
 
+0.0.38 (2019-03-14)
+-------------------
+
+* Multi level encryption support for faster operations on encrypted wallets.
+
+0.0.39 (2019-03-14)
+-------------------
+
+* Fix leaking info

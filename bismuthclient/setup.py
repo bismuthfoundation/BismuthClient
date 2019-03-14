@@ -41,6 +41,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/BismuthFoundation/bismuthclient',
-    version='0.0.37',
+    version='0.0.39',
     zip_safe=False,
 )

@@ -22,7 +22,7 @@ from Cryptodome.PublicKey import RSA
 # import hashlib
 import os, sys
 
-__version__ = '0.0.5'
+__version__ = '0.0.61'
 
 
 class BismuthMultiWallet():
@@ -146,8 +146,8 @@ class BismuthMultiWallet():
         try:
             for address in self._addresses:
                 content = json.dumps(address)
-                encrypted_addresses.append(b64encode(encrypt(password, content)).decode('utf-8'))
-            encrypted = b64encode(encrypt(password, json.dumps(self._data['spend']))).decode('utf-8')
+                encrypted_addresses.append(b64encode(encrypt(password, content, level=1)).decode('utf-8'))
+            encrypted = b64encode(encrypt(password, json.dumps(self._data['spend']), level=2)).decode('utf-8')
 
             self._data['addresses'] = encrypted_addresses
             self._data['encrypted'] = True
@@ -228,7 +228,7 @@ class BismuthMultiWallet():
         self._addresses.append(keys)
         if self._infos['encrypted']:
             content = json.dumps(keys)
-            encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
+            encrypted = b64encode(encrypt(self._master_password, content, level=1)).decode('utf-8')
             self._data['addresses'].append(encrypted)
         else:
             print('1')
@@ -246,10 +246,9 @@ class BismuthMultiWallet():
             if single_address['address'] == address:
                 #
                 self._addresses[i]['label'] = label
-                print("encrypted", self._infos['encrypted'], "master", self._master_password)
                 if self._infos['encrypted'] and self._master_password:
                     content = json.dumps(self._addresses[i])
-                    encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
+                    encrypted = b64encode(encrypt(self._master_password, content, level=1)).decode('utf-8')
                     self._data['addresses'][i] = encrypted
                 else:
                     self._data['addresses'][i]['label'] = label
@@ -264,7 +263,7 @@ class BismuthMultiWallet():
         spend = {'type': spend_type, 'value': spend_value}
         if self._infos['encrypted']:
             content = json.dumps(spend)
-            encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
+            encrypted = b64encode(encrypt(self._master_password, content, level=2)).decode('utf-8')
             self._data['spend'] = encrypted
         else:
             self._data['spend'] = spend
@@ -338,7 +337,7 @@ class BismuthMultiWallet():
         self._addresses.append(key)
         if self._infos['encrypted']:
             content = json.dumps(key)
-            encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
+            encrypted = b64encode(encrypt(self._master_password, content, level=1)).decode('utf-8')
             self._data['addresses'].append(encrypted)
         else:
             print('1')

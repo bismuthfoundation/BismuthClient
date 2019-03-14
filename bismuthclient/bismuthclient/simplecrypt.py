@@ -29,7 +29,7 @@ for header in HEADER:
     assert len(header) == HEADER_LEN
 
 
-def encrypt(password, data):
+def encrypt(password, data, level=2):
     '''
     Encrypt some data.  Input can be bytes or a string (which will be encoded
     using UTF-8).
@@ -38,18 +38,19 @@ def encrypt(password, data):
     This should be as long as varied as possible.  Try to avoid common words.
 
     @param data: The data to be encrypted.
+    @param level: The encryption level and loops number. 2 is default, very hard and slow.
 
     @return: The encrypted data, as bytes.
     '''
     data = _str_to_bytes(data)
     _assert_encrypt_length(data)
-    salt = bytes(_random_bytes(SALT_LEN[LATEST] // 8))
-    hmac_key, cipher_key = _expand_keys(password, salt, EXPANSION_COUNT[LATEST])
+    salt = bytes(_random_bytes(SALT_LEN[level] // 8))
+    hmac_key, cipher_key = _expand_keys(password, salt, EXPANSION_COUNT[level])
     counter = Counter.new(HALF_BLOCK, prefix=salt[:HALF_BLOCK // 8])
     cipher = AES.new(cipher_key, AES.MODE_CTR, counter=counter)
     encrypted = cipher.encrypt(data)
-    hmac = _hmac(hmac_key, HEADER[LATEST] + salt + encrypted)
-    return HEADER[LATEST] + salt + encrypted + hmac
+    hmac = _hmac(hmac_key, HEADER[level] + salt + encrypted)
+    return HEADER[level] + salt + encrypted + hmac
 
 
 def decrypt(password, data):
