@@ -22,7 +22,7 @@ from Cryptodome.PublicKey import RSA
 # import hashlib
 import os, sys
 
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 
 class BismuthMultiWallet():
@@ -242,11 +242,17 @@ class BismuthMultiWallet():
         if self._infos['encrypted'] and self._locked:
             raise RuntimeError("Wallet must be unlocked")
         #print(self._data['addresses'])
-        #print(self._data)
-        for i, single_address in enumerate(self._data['addresses']):
+        for i, single_address in enumerate(self._addresses):
             if single_address['address'] == address:
-                self._data['addresses'][i]['label'] = label
+                #
                 self._addresses[i]['label'] = label
+                print("encrypted", self._infos['encrypted'], "master", self._master_password)
+                if self._infos['encrypted'] and self._master_password:
+                    content = json.dumps(self._addresses[i])
+                    encrypted = b64encode(encrypt(self._master_password, content)).decode('utf-8')
+                    self._data['addresses'][i] = encrypted
+                else:
+                    self._data['addresses'][i]['label'] = label
         self.save()
 
     def set_spend(self, spend_type:str, spend_value: str, password: str=''):

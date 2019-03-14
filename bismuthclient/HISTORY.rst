@@ -99,3 +99,9 @@ History
 
 * Edit Address labels
 
+
+0.0.37 (2019-03-14)
+-------------------
+
+* Fix labels with encrypted wallets
+
