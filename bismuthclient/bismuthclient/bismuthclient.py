@@ -5,7 +5,7 @@ A all in one Bismuth Native client that connects to local or distant wallet serv
 import base64
 # import json
 import logging
-import time
+from time import time
 import sys
 import os
 from datetime import timedelta
@@ -20,13 +20,19 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.39'
+__version__ = '0.0.40'
+
+# Hardcoded list of addresses that need a message, like exchanges.
+# qtrade, tradesatoshi
+REJECT_EMPTY_MESSAGE_FOR = ['f6c0363ca1c5aa28cc584252e65a63998493ff0a5ec1bb16beda9bac', '49ca873779b36c4a503562ebf5697fca331685d79fd3deef64a46888']
+# for test
+# REJECT_EMPTY_MESSAGE_FOR.append('0634b5046b1e2b6a69006280fbe91951d5bb5604c6f469baa2bcd840')
 
 
 class BismuthClient():
 
     __slots__ = ('initial_servers_list', 'servers_list', 'app_log', '_loop', 'address', '_current_server',
-                 'wallet_file', '_wallet', '_connection', '_cache', 'verbose', 'full_servers_list')
+                 'wallet_file', '_wallet', '_connection', '_cache', 'verbose', 'full_servers_list', 'time_drift')
 
     def __init__(self, servers_list=None, app_log=None, loop=None, wallet_file='', verbose=False):
         """
@@ -57,11 +63,13 @@ class BismuthClient():
         self._current_server = None
         self._connection = None
         self._cache = {}
+        # Difference between local time and server time.
+        self.time_drift = 0
 
     def _get_cached(self, key, timeout_sec=30):
         if key in self._cache:
             data = self._cache[key]
-            if data[0] + timeout_sec >= time.time():
+            if data[0] + timeout_sec >= time():
                 """                
                 if self.verbose:
                     self.app_log.info("Cache Hit on {}".format(key))
@@ -71,7 +79,7 @@ class BismuthClient():
         return None
 
     def _set_cache(self, key, value):
-        self._cache[key] = (time.time(), value)
+        self._cache[key] = (time(), value)
 
     def clear_cache(self):
         self._cache = {}
@@ -99,7 +107,7 @@ class BismuthClient():
         """
         wallets = []
         for entry in scandir(scan_dir):
-            print(entry)
+            # print(entry)
             if entry.name.endswith('.der') and entry.is_file():
                  wallets.append(self._wallet.wallet_preview(entry.path))
         # TODO: sorts by name
@@ -152,12 +160,43 @@ class BismuthClient():
             balance = 0.000
         return balance
 
+    def global_balance(self, for_display=False):
+        """
+        Returns the current global balance for all addresses of current multiwallet.
+        """
+        if not type(self._wallet) == BismuthMultiWallet:
+            raise RuntimeWarning("Not a Multiwallet")
+        if not self.address or not self._wallet:
+            return 'N/A'
+        try:
+            address_list = [add['address'] for add in self._wallet._addresses]
+            # print('al', address_list)
+            balance = self.command("globalbalanceget", [address_list])
+            # print('balance', balance)
+            balance = balance[0]
+        except:
+            # TODO: Handle retry, at least error message.
+            balance = 'N/A'
+        if for_display:
+            balance = AmountFormatter(balance).to_string(leading=0)
+        if balance == '0E-8':
+            balance = 0.000
+        return balance
+
+    def reject_empty_message_for(self, address: str) -> bool:
+        """Hardcoded list."""
+        return address in REJECT_EMPTY_MESSAGE_FOR
+
     def send(self, recipient: str, amount: float, operation: str='', data: str=''):
         """
         Sends the given tx
         """
         try:
-            timestamp = time.time()
+            timestamp = time()
+            if self.time_drift > 0:
+                # we are more advanced than server, fix and add 0.1 sec safety
+                timestamp -= (self.time_drift + 0.1)
+                # This is to avoid "rejected transaction because in the future
             public_key_hashed = base64.b64encode(self._wallet.public_key.encode('utf-8'))
             signature_enc = bismuthcrypto.sign_with_key(timestamp, self.address, recipient, amount, operation, data, self._wallet.key)
             txid = signature_enc[:56]
@@ -202,18 +241,26 @@ class BismuthClient():
             if cached:
                 return cached
             status = self.command("statusjson")
+            # print("getstatus", status)
             try:
                 status['uptime_human'] = str(timedelta(seconds=status['uptime']))
             except Exception as e:
-                print("yoyo", e)
                 status['uptime_human'] = 'N/A'
             try:
                 status['extended'] = self.command("wstatusget")
             except:
                 status['extended'] = None
+
+            if 'server_timestamp' in status:
+                self.time_drift = time() - float(status['server_timestamp'])
+            else:
+                self.time_drift = 0
+            status['time_drift'] = self.time_drift
+
             self._set_cache('status', status)
-        except:
+        except Exception as e:
             # TODO: Handle retry, at least error message.
+            print(e)
             status = {}
         return status
 

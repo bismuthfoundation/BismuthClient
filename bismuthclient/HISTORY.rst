@@ -114,3 +114,11 @@ History
 -------------------
 
 * Fix leaking info
+
+0.0.40 (2019-05-03)
+-------------------
+
+* Addons to support new wallet functions.
+* import encrypted wallet.der
+* reject empty messages tx to exchanges
+* reduce verbosity
