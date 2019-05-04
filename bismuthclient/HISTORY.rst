@@ -122,3 +122,9 @@ History
 * import encrypted wallet.der
 * reject empty messages tx to exchanges
 * reduce verbosity
+
+0.0.41 (2019-05-04)
+-------------------
+
+* First support for alias functions
+* cached alias results

@@ -3,7 +3,7 @@ A all in one Bismuth Native client that connects to local or distant wallet serv
 """
 
 import base64
-# import json
+import json
 import logging
 from time import time
 import sys
@@ -20,11 +20,13 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.40'
+__version__ = '0.0.41'
 
 # Hardcoded list of addresses that need a message, like exchanges.
 # qtrade, tradesatoshi
-REJECT_EMPTY_MESSAGE_FOR = ['f6c0363ca1c5aa28cc584252e65a63998493ff0a5ec1bb16beda9bac', '49ca873779b36c4a503562ebf5697fca331685d79fd3deef64a46888']
+REJECT_EMPTY_MESSAGE_FOR = ['f6c0363ca1c5aa28cc584252e65a63998493ff0a5ec1bb16beda9bac',
+                            '49ca873779b36c4a503562ebf5697fca331685d79fd3deef64a46888',
+                            'edf2d63cdf0b6275ead22c9e6d66aa8ea31dc0ccb367fad2e7c08a25']
 # for test
 # REJECT_EMPTY_MESSAGE_FOR.append('0634b5046b1e2b6a69006280fbe91951d5bb5604c6f469baa2bcd840')
 
@@ -32,7 +34,8 @@ REJECT_EMPTY_MESSAGE_FOR = ['f6c0363ca1c5aa28cc584252e65a63998493ff0a5ec1bb16bed
 class BismuthClient():
 
     __slots__ = ('initial_servers_list', 'servers_list', 'app_log', '_loop', 'address', '_current_server',
-                 'wallet_file', '_wallet', '_connection', '_cache', 'verbose', 'full_servers_list', 'time_drift')
+                 'wallet_file', '_wallet', '_connection', '_cache', 'verbose', 'full_servers_list', 'time_drift',
+                 '_alias_cache', '_alias_cache_file')
 
     def __init__(self, servers_list=None, app_log=None, loop=None, wallet_file='', verbose=False):
         """
@@ -63,8 +66,62 @@ class BismuthClient():
         self._current_server = None
         self._connection = None
         self._cache = {}
+        # address: [alias, expiration_ts]
+        self._alias_cache = {}
+        self._alias_cache_file = None
         # Difference between local time and server time.
         self.time_drift = 0
+
+    # Alias functions
+
+    def set_alias_cache_file(self, filename:str):
+        """Define an optional file for persistent storage of alias data"""
+        self._alias_cache_file = filename
+        # Try to load
+        if path.isfile(filename):
+            with open(filename) as f:
+                self._alias_cache = json.load(f)
+
+    def get_aliases_of(self, addresses: list) -> list:
+        """Get alias from a list of addresses. returns a dict {address:alias (or '')}"""
+        # Filter out the ones from valid cache
+        now = time()
+        addresses = set(addresses)  # dedup
+        cached = { address: self._alias_cache[address][0] for address in addresses if address in self._alias_cache and self._alias_cache[address][1] > now}
+        print("cached", cached)
+        # Ask for the rest.
+        unknown = [address for address in addresses if address not in cached]
+        aliases = self.command("aliasesget", [unknown])
+        # Returns a list of aliases (or addresses if no alias)
+        # print("aliases", aliases)
+        new = dict(zip(unknown, aliases))
+        for address, alias in new.items():
+            # cache empty ones for 1 hour, existing ones for a day.
+            if address == alias:
+                self._alias_cache[address] = [alias, now + 3600]
+            else:
+                self._alias_cache[address] = [alias, now + 3600 * 24]
+        # save cache if alias_cache_file is defined
+        if self._alias_cache_file:
+            with open(self._alias_cache_file, 'w') as fp:
+                json.dump(self._alias_cache, fp)
+        # return merge
+        return {**cached, **new}
+
+    def has_alias(self, address):
+        """Does this address have an alias? - not the most efficient, prefer get_aliases_of for batch ops."""
+        return self.get_aliases_of([address]) != ''
+
+    def alias_exists(self, alias):
+        """Does this alias exists?"""
+        # if we have in cache, it does.
+        for address, info in self._alias_cache:
+            if info[0] == alias:
+                return True
+        # if not, ask the chain (do not cache there)
+        return self.command("aliascheck", [alias])
+
+    # End of alias functions
 
     def _get_cached(self, key, timeout_sec=30):
         if key in self._cache:
@@ -113,7 +170,7 @@ class BismuthClient():
         # TODO: sorts by name
         return wallets
 
-    def latest_transactions(self, num=10, for_display=False):
+    def latest_transactions(self, num=10, offset=0, for_display=False):
         """
         Returns the list of the latest num transactions for the current address.
 
@@ -123,11 +180,14 @@ class BismuthClient():
         if not self.address or not self._wallet:
             return []
         try:
-            key = "tx{}".format(num)
+            key = "tx{}-{}".format(num, offset)
             cached = self._get_cached(key)
             if cached:
                 return cached
-            transactions = self.command("addlistlim", [self.address, num])
+            if offset == 0:
+                transactions = self.command("addlistlim", [self.address, num])
+            else:
+                transactions = self.command("addlistlimfrom", [self.address, num, offset])
         except:
             # TODO: Handle retry, at least error message.
             transactions = []
