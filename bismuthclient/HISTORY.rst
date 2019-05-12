@@ -128,3 +128,8 @@ History
 
 * First support for alias functions
 * cached alias results
+
+0.0.42 (2019-05-12)
+-------------------
+
+More feedback on failed tx submission

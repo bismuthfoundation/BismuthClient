@@ -20,7 +20,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.41'
+__version__ = '0.0.42'
 
 # Hardcoded list of addresses that need a message, like exchanges.
 # qtrade, tradesatoshi
@@ -247,7 +247,7 @@ class BismuthClient():
         """Hardcoded list."""
         return address in REJECT_EMPTY_MESSAGE_FOR
 
-    def send(self, recipient: str, amount: float, operation: str='', data: str=''):
+    def send(self, recipient: str, amount: float, operation: str='', data: str='', error_reply: list=[]):
         """
         Sends the given tx
         """
@@ -267,9 +267,11 @@ class BismuthClient():
                 print("Server replied '{}'".format(reply))
             if reply[-1] != "Success":
                 print("Error '{}'".format(reply))
+                error_reply.append(reply[-1])
                 return None
             if not reply:
                 print("Server timeout")
+                error_reply.append('Server timeout')
                 return None
             return txid
         except Exception as e:
