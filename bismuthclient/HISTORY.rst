@@ -133,3 +133,8 @@ History
 -------------------
 
 More feedback on failed tx submission
+
+0.0.43 (2019-05-18)
+-------------------
+
+Fixed encrypted wallet.der loading

@@ -276,7 +276,7 @@ class BismuthMultiWallet():
                 content = json.load(f)
                 address = content['Address']  # Warning case change!!!
                 if password:
-                    content['Private Key'] = decrypt(password,b64decode(content['Private Key']))
+                    content['Private Key'] = decrypt(password,b64decode(content['Private Key'])).decode('utf-8')
 
                 key = RSA.importKey(content['Private Key'])
                 public_key = content['Public Key']
