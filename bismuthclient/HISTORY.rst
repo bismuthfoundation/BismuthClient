@@ -138,3 +138,8 @@ More feedback on failed tx submission
 -------------------
 
 Fixed encrypted wallet.der loading
+
+0.0.44 (2019-05-20)
+-------------------
+
+Support for message encryption/decryption and pubkey retrieval

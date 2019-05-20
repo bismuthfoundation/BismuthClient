@@ -14,15 +14,18 @@ import json
 import os
 import re
 
+from ast import literal_eval
 from Cryptodome.Hash import SHA
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Signature import PKCS1_v1_5
 from Cryptodome.Protocol.KDF import PBKDF2
+from Cryptodome.Cipher import AES, PKCS1_OAEP
+from Cryptodome.Random import get_random_bytes
 from os import path
 from bismuthclient.simplecrypt import *
 
 
-__version__ = '0.0.23'
+__version__ = '0.0.24'
 
 
 def sign_rsa(timestamp, address, recipient, amount, operation, openfield, key, public_key_hashed):
@@ -93,6 +96,42 @@ def sign_message_with_key(message: str, key):
         return signature_enc.decode("utf-8")
     else:
         return False
+
+
+def encrypt_message_with_pubkey(message: str, pubkey:str) -> str:
+    # Encrypt with pubkey - This is a helper function
+    # Returns the b64 encoded message
+    if not 'BEGIN PUBLIC KEY' in pubkey:
+        # pem key is b64 encoded, decode
+        pubkey = base64.b64decode(pubkey).decode("utf-8")
+    recipient_key = RSA.importKey(pubkey)
+    data = message.encode("utf-8")
+    session_key = get_random_bytes(16)
+    cipher_aes = AES.new(session_key, AES.MODE_EAX)
+    # Encrypt the session key with the public RSA key
+    cipher_rsa = PKCS1_OAEP.new(recipient_key)
+    # Encrypt the data with the AES session key
+    cipher_text, tag = cipher_aes.encrypt_and_digest(data)
+    enc_session_key = (cipher_rsa.encrypt(session_key))
+    encoded = str([x for x in (cipher_aes.nonce, tag, cipher_text, enc_session_key)])
+    return base64.b64encode(encoded.encode("utf-8")).decode("utf-8")
+
+
+def decrypt_message_with_key(message: str, key) -> str:
+    # Decrypt with key - This is a helper function
+    # Returns the original string
+    if message.startswith("enc=bmsg="):
+        # strip prefix
+        message = message[9:]
+    msg_received_digest = base64.b64decode(message).decode("utf-8")
+    (cipher_aes_nonce, tag, ciphertext, enc_session_key) = literal_eval(msg_received_digest)
+    # Decrypt the session key with the public RSA key
+    cipher_rsa = PKCS1_OAEP.new(key)
+    session_key = cipher_rsa.decrypt(enc_session_key)
+    # Decrypt the data with the AES session key
+    cipher_aes = AES.new(session_key, AES.MODE_EAX, cipher_aes_nonce)
+    decoded = cipher_aes.decrypt_and_verify(ciphertext, tag).decode("utf-8")
+    return decoded
 
 
 def keys_check(app_log, keyfile):

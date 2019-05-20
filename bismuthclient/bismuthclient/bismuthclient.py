@@ -20,7 +20,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.43'
+__version__ = '0.0.44'
 
 # Hardcoded list of addresses that need a message, like exchanges.
 # qtrade, tradesatoshi
@@ -287,6 +287,37 @@ class BismuthClient():
         try:
             signature = bismuthcrypto.sign_message_with_key(message, self._wallet.key)
             return signature
+        except Exception as e:
+            print(str(e))
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            raise
+
+    def encrypt(self, message: str, recipient:str):
+        """
+        Encrypts the given message for the recipient
+        """
+        try:
+            # Fetch the pubkey of the recipient
+            pubkey = self.command('pubkeyget', [recipient])
+            # print("pubkey", pubkey, recipient)
+            encrypted = bismuthcrypto.encrypt_message_with_pubkey(message, pubkey)
+            return encrypted
+        except Exception as e:
+            print(str(e))
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            raise
+
+    def decrypt(self, message: str):
+        """
+        Decrypts the given message
+        """
+        try:
+            decrypted = bismuthcrypto.decrypt_message_with_key(message, self._wallet.key)
+            return decrypted
         except Exception as e:
             print(str(e))
             exc_type, exc_obj, exc_tb = sys.exc_info()
