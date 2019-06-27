@@ -143,3 +143,8 @@ Fixed encrypted wallet.der loading
 -------------------
 
 Support for message encryption/decryption and pubkey retrieval
+
+0.0.45 (2019-06-27)
+-------------------
+
+Support for new addresses schemes

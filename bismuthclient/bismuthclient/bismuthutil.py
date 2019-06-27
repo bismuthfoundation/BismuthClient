@@ -6,8 +6,7 @@ import re
 import hashlib
 import base64
 
-__version__ = '0.0.2'
-
+__version__ = '0.0.4'
 
 
 def checksum(string):
@@ -17,14 +16,30 @@ def checksum(string):
     return base64.b85encode(m.digest()).decode("utf-8")
 
 
+RE_RSA_ADDRESS = re.compile(r"^[abcdef0123456789]{56}$")
+# TODO: improve that ECDSA one
+RE_ECDSA_ADDRESS = re.compile(r"^Bis")
+
+
 class BismuthUtil():
     """Static helper utils"""
-
 
     @staticmethod
     def valid_address(address: str):
         """Says if that address looks ok"""
-        return re.match('[abcdef0123456789]{56}', address)
+        # Dup from polysign - https://github.com/bismuthfoundation/Bismuth/blob/postfork/polysign/signerfactory.py
+        # TODO: polysign as module for future versions.
+        if RE_RSA_ADDRESS.match(address):
+            # RSA, 56 hex
+            return True
+        elif RE_ECDSA_ADDRESS.match(address):
+            if 50 < len(address) < 60:
+                # ED25519, around 54
+                return True
+            if 30 < len(address) < 50:
+                # ecdsa, around 37
+                return True
+        return False
 
     @staticmethod
     def fee_for_tx(message=''):

@@ -20,13 +20,14 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.44'
+__version__ = '0.0.45'
 
 # Hardcoded list of addresses that need a message, like exchanges.
-# qtrade, tradesatoshi
+# qtrade, tradesatoshi, old cryptopia, graviex
 REJECT_EMPTY_MESSAGE_FOR = ['f6c0363ca1c5aa28cc584252e65a63998493ff0a5ec1bb16beda9bac',
                             '49ca873779b36c4a503562ebf5697fca331685d79fd3deef64a46888',
-                            'edf2d63cdf0b6275ead22c9e6d66aa8ea31dc0ccb367fad2e7c08a25']
+                            'edf2d63cdf0b6275ead22c9e6d66aa8ea31dc0ccb367fad2e7c08a25',
+                            '14c1b5851634f0fa8145ceea1a52cabe2443dc10350e3febf651bd3a']
 # for test
 # REJECT_EMPTY_MESSAGE_FOR.append('0634b5046b1e2b6a69006280fbe91951d5bb5604c6f469baa2bcd840')
 
@@ -243,6 +244,7 @@ class BismuthClient():
             balance = 0.000
         return balance
 
+    @classmethod
     def reject_empty_message_for(self, address: str) -> bool:
         """Hardcoded list."""
         return address in REJECT_EMPTY_MESSAGE_FOR
