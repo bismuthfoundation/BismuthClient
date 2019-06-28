@@ -20,7 +20,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.45'
+__version__ = '0.0.46'
 
 # Hardcoded list of addresses that need a message, like exchanges.
 # qtrade, tradesatoshi, old cryptopia, graviex
@@ -171,9 +171,10 @@ class BismuthClient():
         # TODO: sorts by name
         return wallets
 
-    def latest_transactions(self, num=10, offset=0, for_display=False):
+    def latest_transactions(self, num=10, offset=0, for_display=False, mempool_included=False):
         """
         Returns the list of the latest num transactions for the current address.
+        if mempool_inc is True, also return (in addition to num, start of the list) the tx currently in mempool.
 
         Each transaction is a dict with the following keys:
         `["block_height", "timestamp", "address", "recipient", "amount", "signature", "public_key", "block_hash", "fee", "reward", "operation", "openfield"]`
@@ -189,6 +190,11 @@ class BismuthClient():
                 transactions = self.command("addlistlim", [self.address, num])
             else:
                 transactions = self.command("addlistlimfrom", [self.address, num, offset])
+            if mempool_included:
+                transactions_mempool = self.command("mpgetfor", [self.address])
+                transactions_mempool.extend(transactions)
+                transactions = transactions_mempool
+            # print(transactions)
         except:
             # TODO: Handle retry, at least error message.
             transactions = []

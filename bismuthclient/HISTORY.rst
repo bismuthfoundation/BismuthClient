@@ -148,3 +148,8 @@ Support for message encryption/decryption and pubkey retrieval
 -------------------
 
 Support for new addresses schemes
+
+0.0.46 (2019-06-28)
+-------------------
+
+Support for optional mempool txs in last transactions.

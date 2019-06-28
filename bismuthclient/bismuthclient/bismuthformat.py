@@ -25,10 +25,12 @@ class TxFormatter():
 
     def to_json(self, for_display=False):
         json = dict(zip(self._tx_keys, self.tx))
+        if json['fee'] == '':
+            json['fee'] = 0
         if for_display:
-            json['datetime'] = datetime.datetime.utcfromtimestamp(json['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
-            json['amount'] = AmountFormatter(json['amount']).to_string()
-            json['fee'] = AmountFormatter(json['fee']).to_string(leading=1)
+            json['datetime'] = datetime.datetime.utcfromtimestamp(float(json['timestamp'])).strftime('%Y-%m-%d %H:%M:%S')
+            json['amount'] = AmountFormatter(float(json['amount'])).to_string()
+            json['fee'] = AmountFormatter(float(json['fee'])).to_string(leading=1)
             if json['operation'] == '0':
                 json['operation'] = ''
         return json
