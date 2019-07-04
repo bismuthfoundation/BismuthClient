@@ -1,6 +1,6 @@
 # BismuthClient and wallets
 
-## Legacy wallet files
+## Legacy wallet files
 
 Legacy wallet app used single address wallets. These were wallet.der files.  
 Despite the extension, that was a json file, holding b64encoded pem data.  
@@ -41,6 +41,12 @@ default behaviour is to use the single wallet scheme
 |load_multi_wallet(wallet_file='wallet.json') | Invalid | Valid |
 |set_address(address: str='')| Invalid | Valid | Define active address of the multiwallet, address must exist in the multiwallet
 |new_wallet(wallet_file='wallet.der') | Irrelevant | Irrelevant | Creates a new single wallet, does not load it. current wallet, single or multi, is unchanged
-|wallet(full=False) | Valid | Valid | Info about the current (single or multi) wallet. If full is True, also force a check of the current balance
+|wallet(full=False) | Valid | Valid | Info about the current (single or multi) wallet. If full is True, also force a check of the current balance. *Note*: Likely to be renamed wallet_info()
 
 ## Private wallet property and methods
+
+My bad.  
+In current code, it's unavoidable to make use of the `_wallet` property to access the wallet instance methods.  
+`_wallet` will either be a BismuthWallet or a BismuthMultiWallet instance, depending on which one was loaded.
+
+*Note*: `_wallet` property is likely to be exposed as `wallet` public property
