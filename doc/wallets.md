@@ -33,10 +33,10 @@ default behaviour is to use the single wallet scheme
 - If you want a multiwallet, explicitely load it:  
 `bismuthclient.load_multi_wallet(wallet_file='wallet.json')`
 
-## Public Wallet methods
+## Public Wallet methods
 
 | method | single wallet | multi wallet | Comment
------------------------------------------------------
+|--------|---------------|--------------|---------
 |load_wallet(wallet_file='wallet.der') | Valid | Invalid | 
 |load_multi_wallet(wallet_file='wallet.json') | Invalid | Valid |
 |set_address(address: str='')| Invalid | Valid | Define active address of the multiwallet, address must exist in the multiwallet
