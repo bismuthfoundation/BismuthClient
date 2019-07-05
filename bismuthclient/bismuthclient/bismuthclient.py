@@ -82,7 +82,7 @@ class BismuthClient():
             with open(filename) as f:
                 self._alias_cache = json.load(f)
 
-    def get_aliases_of(self, addresses: list) -> list:
+    def get_aliases_of(self, addresses: list) -> dict:
         """Get alias from a list of addresses. returns a dict {address:alias (or '')}"""
         # Filter out the ones from valid cache
         now = time()
