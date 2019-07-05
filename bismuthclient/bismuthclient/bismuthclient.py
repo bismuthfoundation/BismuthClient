@@ -166,7 +166,7 @@ class BismuthClient():
         for entry in scandir(scan_dir):
             # print(entry)
             if entry.name.endswith('.der') and entry.is_file():
-                 wallets.append(self._wallet.wallet_preview(entry.path))
+                wallets.append(self._wallet.wallet_preview(entry.path))
         # TODO: sorts by name
         return wallets
 
