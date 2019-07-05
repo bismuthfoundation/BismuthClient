@@ -205,15 +205,14 @@ class BismuthClient():
         if not self.address or not self._wallet:
             return 'N/A'
         try:
-            cached = self._get_cached('balance')
-            if cached:
-                return cached
-            balance = self.command("balanceget", [self.address])
-            balance = balance[0]
-            self._set_cache('balance', balance)
-        except:
-            # TODO: Handle retry, at least error message.
-            balance = 'N/A'
+            balance = self._get_cached('balance')
+            if not balance:
+                balance = self.command("balanceget", [self.address])[0]
+                self._set_cache('balance', balance)
+                balance = self._get_cached('balance')
+        except Exception as e:
+            self.app_log.error(e)
+            return 'N/A'
         if for_display:
             balance = AmountFormatter(balance).to_string(leading=0)
         if balance == '0E-8':
