@@ -83,7 +83,7 @@ class BismuthClient():
             with open(filename) as f:
                 self._alias_cache = json.load(f)
 
-    def get_aliases_of(self, addresses: list) -> list:
+    def get_aliases_of(self, addresses: list) -> dict:
         """Get alias from a list of addresses. returns a dict {address:alias (or '')}"""
         # Filter out the ones from valid cache
         now = time()
@@ -167,7 +167,7 @@ class BismuthClient():
         for entry in scandir(scan_dir):
             # print(entry)
             if entry.name.endswith('.der') and entry.is_file():
-                 wallets.append(self._wallet.wallet_preview(entry.path))
+                wallets.append(self._wallet.wallet_preview(entry.path))
         # TODO: sorts by name
         return wallets
 
@@ -212,15 +212,14 @@ class BismuthClient():
         if not self.address or not self._wallet:
             return 'N/A'
         try:
-            cached = self._get_cached('balance')
-            if cached:
-                return cached
-            balance = self.command("balanceget", [self.address])
-            balance = balance[0]
-            self._set_cache('balance', balance)
-        except:
-            # TODO: Handle retry, at least error message.
-            balance = 'N/A'
+            balance = self._get_cached('balance')
+            if not balance:
+                balance = self.command("balanceget", [self.address])[0]
+                self._set_cache('balance', balance)
+                balance = self._get_cached('balance')
+        except Exception as e:
+            self.app_log.error(e)
+            return 'N/A'
         if for_display:
             balance = AmountFormatter(balance).to_string(leading=0)
         if balance == '0E-8':
