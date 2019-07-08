@@ -2,7 +2,7 @@
 
 ## Legacy wallet files
 
-Legacy wallet app used single address wallets. These were wallet.der files.  
+Legacy wallet app used single address wallets. These were `wallet.der` files.  
 Despite the extension, that was a json file, holding b64encoded pem data.  
 
 A single wallet contains
@@ -13,16 +13,58 @@ A single wallet contains
 The privkey could optionally be encoded.  
 Wallets were usually stored in the app directory.
 
-**TODO: format spec and exemple**
+Example:
+```json
+{
+    "Private Key": "-----BEGIN RSA PRIVATE KEY-----\n<SOME_PRIVATE_KEY>\n-----END RSA PRIVATE KEY-----",
+    "Public Key": "-----BEGIN PUBLIC KEY-----\n<SOME_PUBLIC_KEY>\n-----END PUBLIC KEY-----",
+    "Address": "<SOME_ADDRESS>"
+}
+```
 
 ## Multiwallets
 
-Tornado Wallet introduced multiwallets: a single json file, wallet.json, with several sets of (privkey, pubkey, address).
+Tornado Wallet introduced multiwallets: a single json file, `wallet.json`, with several sets of (privkey, pubkey, address).
 Optionally encoded (all content, including address) with a single passphrase for all the sets.
 
 This file is usually stored in a user private dir.
 
-**TODO: format spec and exemple**
+Example with three addresses:
+```json
+{
+    "salt": "<SOME_SALT>",
+    "spend":
+    {
+        "type": null,
+        "value": null
+    },
+    "version": "0.0.41",
+    "coin": "bis",
+    "encrypted": false,
+    "addresses": [
+    {
+        "private_key": "-----BEGIN RSA PRIVATE KEY-----\n<SOME_PRIVATE_KEY>\n-----END RSA PRIVATE KEY-----",
+        "public_key": "-----BEGIN PUBLIC KEY-----\n<SOME_PUBLIC_KEY>\n-----END PUBLIC KEY-----",
+        "address": "<SOME_ADDRESS>",
+        "label": "work",
+        "timestamp": 1562366500
+    },
+    {
+        "private_key": "-----BEGIN RSA PRIVATE KEY-----\n<SOME_PRIVATE_KEY>\n-----END RSA PRIVATE KEY-----",
+        "public_key": "-----BEGIN PUBLIC KEY-----\n<SOME_PUBLIC_KEY>\n-----END PUBLIC KEY-----",
+        "address": "<SOME_ADDRESS>",
+        "label": "private",
+        "timestamp": 1562450363
+    },
+    {
+        "private_key": "-----BEGIN RSA PRIVATE KEY-----\n<SOME_PRIVATE_KEY>\n-----END RSA PRIVATE KEY-----",
+        "public_key": "-----BEGIN PUBLIC KEY-----\n<SOME_PUBLIC_KEY>\n-----END PUBLIC KEY-----",
+        "address": "<SOME_ADDRESS>",
+        "label": "fun",
+        "timestamp": 1562450395
+    }]
+}
+```
 
 # Using a wallet with BismuthClient
 
