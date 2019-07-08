@@ -237,7 +237,7 @@ class BismuthMultiWallet():
 
     def set_label(self, address:str ='', label: str=''):
         """
-        Add a new address to the wallet (and save it)
+        Set a label for given address
         """
         if self._infos['encrypted'] and self._locked:
             raise RuntimeError("Wallet must be unlocked")
