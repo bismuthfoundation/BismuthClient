@@ -128,7 +128,7 @@ class BismuthMultiWallet():
         if wallet_file is None:
             wallet_file = self._wallet_file
         with open(wallet_file, 'w') as f:
-            json.dump(self._data, f)
+            json.dump(self._data, f, indent=4)
 
     def password_ok(self, password: str):
         return password == self._master_password
