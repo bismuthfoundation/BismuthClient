@@ -219,7 +219,7 @@ def keys_save(private_key_readable, public_key_readable, address, file):
         file = file.name
 
     with open (file, 'w') as keyfile:
-        json.dump (wallet_dict, keyfile)
+        json.dump (wallet_dict, keyfile, indent=4)
 
 
 def keys_load(privkey="privkey.der", pubkey="pubkey.der"):
