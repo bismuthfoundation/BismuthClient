@@ -235,7 +235,7 @@ class BismuthClient():
             balance = balance[0]
         except:
             # TODO: Handle retry, at least error message.
-            balance = 'N/A'
+            return 'N/A'
         if for_display:
             balance = AmountFormatter(balance).to_string(leading=0)
         if balance == '0E-8':
