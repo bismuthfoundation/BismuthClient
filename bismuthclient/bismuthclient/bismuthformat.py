@@ -5,7 +5,7 @@ Formatting helpers and converters for Bismuth
 import datetime
 # import re
 
-__version__ = '0.0.33'
+__version__ = '0.0.34'
 
 
 # TODO: common ancestor, factorize
@@ -46,6 +46,8 @@ class AmountFormatter():
 
     def to_string(self, decimals=3, leading=0):
         try:
+            if self.amount < 0.01:
+                return "N/A"
             temp = round(self.amount, decimals)
             int_part, decimal_part = str(temp).split('.')
             while len(decimal_part) < decimals:
