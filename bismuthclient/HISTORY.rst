@@ -153,3 +153,8 @@ Support for new addresses schemes
 -------------------
 
 Support for optional mempool txs in last transactions.
+
+0.0.47 (2019-07-14)
+-------------------
+
+Fixes by @Endogen, alias support
