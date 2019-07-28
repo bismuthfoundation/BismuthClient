@@ -5,6 +5,7 @@ Generic helpers  Bismuth
 import re
 import hashlib
 import base64
+from decimal import Decimal
 
 __version__ = '0.0.4'
 
@@ -42,9 +43,16 @@ class BismuthUtil():
         return False
 
     @staticmethod
-    def fee_for_tx(message=''):
-        """Returns fee for the matching message"""
-        return 0.01 + len(message) / 100000
+    def fee_for_tx(openfield: str = '', operation: str = '', block: int = 0) -> Decimal:
+        # block var will be removed after HF
+        fee = Decimal("0.01") + (Decimal(len(openfield)) / Decimal("100000"))  # 0.01 dust
+        if operation == "token:issue":
+            fee = Decimal(fee) + Decimal("10")
+        if openfield.startswith("alias="):
+            fee = Decimal(fee) + Decimal("1")
+        # if operation == "alias:register": #add in the future, careful about forking
+        #    fee = Decimal(fee) + Decimal("1")
+        return fee.quantize(Decimal('0.00000000'))
 
     @staticmethod
     def height_to_supply(height):
