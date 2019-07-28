@@ -13,18 +13,20 @@ __version__ = '0.0.34'
 class TxFormatter():
     """Formats a Bismuth Transaction"""
 
-    __slots__ = ['tx']
+    __slots__ = ['tx', 'txid']
     _tx_keys = ["block_height", "timestamp", "address", "recipient", "amount", "signature", "public_key", "block_hash",
                 "fee", "reward", "operation", "openfield"]
 
     def __init__(self, tx):
         self.tx = tx
+        self.txid = tx[5][:56]
 
     def to_string(self):
         return str(self.tx)
 
     def to_json(self, for_display=False):
         json = dict(zip(self._tx_keys, self.tx))
+        json['txid'] = self.txid
         if json['fee'] == '':
             json['fee'] = 0
         if for_display:
