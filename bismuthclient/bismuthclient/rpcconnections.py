@@ -88,10 +88,10 @@ class Connection(object):
                 self.close()
                 raise RuntimeError("Connections: {}".format(e))
 
-    def _receive(self, slen=SLEN):
+    def _receive(self, slen=SLEN, timeout=LTIMEOUT):
         """Wait for an answer, for LTIMEOUT sec."""
         self.check_connection()
-        self.sdef.settimeout(LTIMEOUT)
+        self.sdef.settimeout(timeout)
         if self.raw:
             print("getting raw:")
         try:
