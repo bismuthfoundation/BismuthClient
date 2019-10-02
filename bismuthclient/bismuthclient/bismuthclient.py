@@ -249,6 +249,24 @@ class BismuthClient():
             balance = 0.000
         return balance
 
+    def all_balances(self, for_display=False) -> dict:
+        """
+        Returns the balance for every single addresses of current multiwallet.
+        Time and resource consuming, avoid using this call for the moment!
+        """
+        if not type(self._wallet) == BismuthMultiWallet:
+            raise RuntimeWarning("Not a Multiwallet")
+        if not self.address or not self._wallet:
+            return 'N/A'
+        try:
+            balances = {add['address']: self.command("balanceget", [add['address']])[0] for add in self._wallet._addresses}
+            if for_display:
+                balances = {address: AmountFormatter(balance).to_string(leading=0) for address, balance in balances.items()}
+        except:
+            # TODO: Handle retry, at least error message.
+            balances = {}  # -1 means "N/A" for AmountFormatter
+        return balances
+
     @classmethod
     def reject_empty_message_for(self, address: str) -> bool:
         """Hardcoded list."""
@@ -264,11 +282,15 @@ class BismuthClient():
                 # we are more advanced than server, fix and add 0.1 sec safety
                 timestamp -= (self.time_drift + 0.1)
                 # This is to avoid "rejected transaction because in the future
-            public_key_hashed = base64.b64encode(self._wallet.public_key.encode('utf-8'))
-            signature_enc = bismuthcrypto.sign_with_key(timestamp, self.address, recipient, amount, operation, data, self._wallet.key)
+            # public_key_encoded = base64.b64encode(self._wallet.public_key.encode('utf-8'))
+            public_key_encoded = self._wallet.get_encoded_pubkey()
+
+            # signature_enc = bismuthcrypto.sign_with_key(timestamp, self.address, recipient, amount, operation, data, self._wallet.key)
+            signature_enc = self._wallet.sign_encoded(timestamp, self.address, recipient, amount, operation, data)
+
             txid = signature_enc[:56]
             tx_submit = ( '%.2f' % timestamp, self.address, recipient, '%.8f' % float(amount),
-                          str(signature_enc), str(public_key_hashed.decode("utf-8")), operation, data)
+                          signature_enc, public_key_encoded, operation, data)
             reply = self.command('mpinsert', [tx_submit])
             if self.verbose:
                 print("Server replied '{}'".format(reply))
@@ -416,7 +438,6 @@ class BismuthClient():
         # Default values, fail
         wallet = BismuthWallet(wallet_file, verbose=self.verbose)
         return wallet.new(wallet_file)
-
 
     def wallet(self, full=False):
         """

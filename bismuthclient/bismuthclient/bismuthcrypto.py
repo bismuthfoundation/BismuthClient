@@ -23,9 +23,20 @@ from Cryptodome.Cipher import AES, PKCS1_OAEP
 from Cryptodome.Random import get_random_bytes
 from os import path
 from bismuthclient.simplecrypt import *
+from polysign.signer import SignerType, SignerSubType
+from polysign.signerfactory import SignerFactory
+
+from typing import Union
 
 
 __version__ = '0.0.24'
+
+
+def ecdsa_pk_to_signer(private_key: str):
+    signer_type = SignerType.ECDSA
+    subtype = SignerSubType.MAINNET_REGULAR
+    signer = SignerFactory.from_seed(private_key, signer_type, subtype=subtype)
+    return signer.to_dict()
 
 
 def sign_rsa(timestamp, address, recipient, amount, operation, openfield, key, public_key_hashed):
@@ -65,8 +76,8 @@ def stringify_transaction(timestamp: float, address: str, recipient: str, amount
     return str(transaction).encode("utf-8")
 
 
-def sign_with_key(timestamp: float, address: str, recipient: str, amount: float, operation: str, openfield: str, key):
-    # Sign with key - This is a helper function
+def sign_with_key(timestamp: float, address: str, recipient: str, amount: float, operation: str, openfield: str, key) -> Union[str, bool]:
+    # Sign with RSA key - This is a helper function
     # Returns the encoded sig as a string
     as_string = stringify_transaction(timestamp, address, recipient, amount, operation, openfield)
     # print("As String1", as_string)
@@ -81,6 +92,18 @@ def sign_with_key(timestamp: float, address: str, recipient: str, amount: float,
         return signature_enc.decode("utf-8")
     else:
         return False
+
+
+def sign_with_ecdsa_key(timestamp: float, address: str, recipient: str, amount: float, operation: str, openfield: str, key) -> Union[str, bool]:
+    # Sign with key - This is a helper function
+    # Returns the encoded sig as a byte string
+    as_string = stringify_transaction(timestamp, address, recipient, amount, operation, openfield)
+    # print("As String1", as_string)
+    signer_type = SignerType.ECDSA
+    subtype = SignerSubType.MAINNET_REGULAR
+    signer = SignerFactory.from_seed(key, signer_type, subtype=subtype)
+    signature = signer.sign_buffer_for_bis(as_string)  #
+    return signature
 
 
 def sign_message_with_key(message: str, key):
@@ -176,7 +199,7 @@ def keys_new(keyfile):
     return True
 
 
-def keys_gen(password: str='', salt:str='', count=10000, verbose=False):
+def keys_gen(password: str='', salt: str='', count=10000, verbose=False):
     """
     Optionnally deterministic RSA Key generation from password and salt. To be used by tests only atm.
     :param password:

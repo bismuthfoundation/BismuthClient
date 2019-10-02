@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['pycryptodomex', 'requests']
+requirements = ['polysign', 'pycryptodomex', 'requests']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -41,6 +41,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/BismuthFoundation/bismuthclient',
-    version='0.0.47',
+    version='0.0.48',
     zip_safe=False,
 )

@@ -158,3 +158,8 @@ Support for optional mempool txs in last transactions.
 -------------------
 
 Fixes by @Endogen, alias support
+
+0.0.48 (2019-09-30)
+-------------------
+
+First support for other crypto schemes, include polysign.

@@ -22,19 +22,20 @@ from Cryptodome.PublicKey import RSA
 # import hashlib
 import os, sys
 
-__version__ = '0.0.61'
+__version__ = '0.0.62'
 
 
 class BismuthMultiWallet():
 
     __slots__ = ('_address', '_wallet_file', 'verbose', '_infos', "verbose", "key", "public_key",
-                 '_addresses', '_locked', '_data', '_master_password')
+                 '_addresses', '_locked', '_data', '_master_password', 'key_type')
 
     def __init__(self, wallet_file: str='wallet.json', verbose: bool=False, seed: str=None):
         self._wallet_file = None
         self._address = None
         self._infos = None
         self.key = None
+        self.key_type = "RSA"
         self._data = None  # raw data
         self._locked = False
         self.public_key = ''
@@ -216,10 +217,12 @@ class BismuthMultiWallet():
         return True
         """
 
-    def new_address(self, label: str='', password: str='', salt: str=''):
+    def new_address(self, label: str='', password: str='', salt: str='', type="RSA"):
         """
         Add a new address to the wallet (and save it)
         """
+        if type != "RSA":
+            raise RuntimeError("Only RSA is available for now")
         if self._infos['encrypted'] and self._locked:
             raise RuntimeError("Wallet must be unlocked")
         keys = bismuthcrypto.keys_gen(password=password, salt=salt)
@@ -300,8 +303,18 @@ class BismuthMultiWallet():
         if not self.is_address_in_wallet(address):
             raise RuntimeError("Duplicate address")
         key = self.get_key(address)
-        self.key = RSA.importKey(key['private_key'])
-        self.public_key = key['public_key']
+        # print("key", key)
+        key_type = key.get('type', "RSA")
+        if key_type == "RSA":
+            self.key_type = "RSA"
+            self.key = RSA.importKey(key['private_key'])
+            self.public_key = key['public_key']
+        elif key_type == "ECDSA":
+            self.key_type = "ECDSA"
+            self.key = key['private_key']
+            self.public_key = key['public_key']
+        else:
+            raise RuntimeError("Unknown address type")
         self._address = address
         self._infos['address'] = address
 
@@ -343,6 +356,79 @@ class BismuthMultiWallet():
             print('1')
             self._data['addresses'].append(key)
         self.save()
+
+    def get_ecdsa_key(self, private_key: str):
+        """
+        Returns a key dict from an ecdsa privatekey
+        :param private_key:
+        :return:
+        """
+        # print(private_key, len(private_key))
+        if len(private_key) != 64:
+            raise RuntimeWarning("Error importing the ECDSA pk, len != 64")
+        try:
+            signer = bismuthcrypto.ecdsa_pk_to_signer(private_key)
+            # print("signer", signer)
+            public_key = signer['public_key']
+            address = signer["address"]
+            # TODO: check that address matches rebuilded pubkey
+            return {"private_key": private_key, "public_key": public_key, "address": address, "label":'',
+                    'timestamp': int(time())}
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            # encrypted
+            return None
+
+    def import_ecdsa_pk(self, private_key: str, label: str=''):
+        """Import an existing wallet.der like file into the wallet"""
+        if self._infos['encrypted'] and self._locked:
+            # TODO: check could be done via a decorator
+            raise RuntimeError("Wallet must be unlocked")
+        key = self.get_ecdsa_key(private_key)
+        if not key:
+            raise RuntimeWarning("Error importing the ECDSA pk.")
+        key['label'] = label
+        key['type'] = 'ECDSA'
+        if self.is_address_in_wallet(key['address']):
+            raise RuntimeError("Duplicate address")
+        self._addresses.append(key)
+        if self._infos['encrypted']:
+            content = json.dumps(key)
+            encrypted = b64encode(encrypt(self._master_password, content, level=1)).decode('utf-8')
+            self._data['addresses'].append(encrypted)
+        else:
+            print('1')
+            self._data['addresses'].append(key)
+        self.save()
+
+    def sign_encoded(self, timestamp: float, address:str, recipient:str, amount:float, operation:str, data:str) -> str:
+        if address != self._address:
+            raise RuntimeWarning("Address mismatch {} vs {}".format(address, self._address))
+        signature_enc = None
+        if self.key_type == 'RSA':
+            signature_enc = bismuthcrypto.sign_with_key(timestamp, address, recipient, amount, operation, data, self.key)
+        elif self.key_type == 'ECDSA':
+            signature_enc = bismuthcrypto.sign_with_ecdsa_key(timestamp, address, recipient, amount, operation, data, self.key)
+        else:
+            raise RuntimeWarning("Error unknown key type")
+        return signature_enc
+
+    def get_encoded_pubkey(self) -> str:
+        """Returns the pubkey encoded as the net wants it, whatever the key format"""
+        pubkey = None
+        if self.key_type == 'RSA':
+            pubkey = b64encode(self.public_key.encode('utf-8')).decode("utf-8")
+        elif self.key_type == 'ECDSA':
+            # public_key_hex = signer.to_dict()["public_key"]
+            pubkey = b64encode(bytes.fromhex(self.public_key)).decode("utf-8")
+        elif self.key_type == 'ED25519':
+            # public_key_hex = signer.to_dict()["public_key"]
+            pubkey = b64encode(bytes.fromhex(self.public_key)).decode("utf-8")
+        else:
+            raise RuntimeWarning("Error unknown key type")
+        return pubkey
 
     @property
     def address(self):
