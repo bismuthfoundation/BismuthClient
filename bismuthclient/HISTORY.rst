@@ -163,3 +163,8 @@ Fixes by @Endogen, alias support
 -------------------
 
 First support for other crypto schemes, include polysign.
+
+0.0.49 (2019-10-16)
+-------------------
+
+Fix single wallet operations

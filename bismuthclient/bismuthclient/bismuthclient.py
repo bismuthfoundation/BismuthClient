@@ -20,7 +20,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.47'
+__version__ = '0.0.48'
 
 # Hardcoded list of addresses that need a message, like exchanges.
 # qtrade, tradesatoshi, old cryptopia, graviex
@@ -258,13 +258,19 @@ class BismuthClient():
             raise RuntimeWarning("Not a Multiwallet")
         if not self.address or not self._wallet:
             return 'N/A'
-        try:
-            balances = {add['address']: self.command("balanceget", [add['address']])[0] for add in self._wallet._addresses}
-            if for_display:
-                balances = {address: AmountFormatter(balance).to_string(leading=0) for address, balance in balances.items()}
-        except:
-            # TODO: Handle retry, at least error message.
-            balances = {}  # -1 means "N/A" for AmountFormatter
+        balances = {}
+        for i in range(3):  # retries
+            try:
+                # balances = {add['address']: self.command("balanceget", [add['address']])[0] for add in self._wallet._addresses}
+                for add in self._wallet._addresses:
+                    if add['address'] not in balances:
+                        balances[add['address']] = self.command("balanceget", [add['address']])[0]
+            except Exception as e:
+                # TODO: Handle retry, at least error message.
+                print("Error {} all_balances".format(str(e)))
+
+        if for_display:
+            balances = {address: AmountFormatter(balance).to_string(leading=0) for address, balance in balances.items()}
         return balances
 
     @classmethod
@@ -272,10 +278,11 @@ class BismuthClient():
         """Hardcoded list."""
         return address in REJECT_EMPTY_MESSAGE_FOR
 
-    def send(self, recipient: str, amount: float, operation: str='', data: str='', error_reply: list=[]):
+    def send(self, recipient: str, amount: float, operation: str='', data: str='', error_reply: list=None):
         """
         Sends the given tx
         """
+        error_reply = [] if error_reply is None else error_reply
         try:
             timestamp = time()
             if self.time_drift > 0:

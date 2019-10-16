@@ -4,7 +4,7 @@ A class encapsulating a Bismuth wallet (keys, address, crypto functions)
 WIP
 """
 
-# import base64
+from base64 import b64encode
 import json
 # import logging
 
@@ -104,3 +104,14 @@ class BismuthWallet():
     def address(self):
         """Returns the currently loaded address, or None"""
         return self._address
+
+    def sign_encoded(self, timestamp: float, address: str, recipient: str, amount:float, operation: str, data: str) -> str:
+        if address != self._address:
+            raise RuntimeWarning("Address mismatch {} vs {}".format(address, self._address))
+        signature_enc = bismuthcrypto.sign_with_key(timestamp, address, recipient, amount, operation, data, self.key)
+        return signature_enc
+
+    def get_encoded_pubkey(self) -> str:
+        """Returns the pubkey encoded as the net wants it"""
+        pubkey = b64encode(self.public_key.encode('utf-8')).decode("utf-8")
+        return pubkey
