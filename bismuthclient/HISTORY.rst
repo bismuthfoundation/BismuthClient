@@ -168,3 +168,9 @@ First support for other crypto schemes, include polysign.
 -------------------
 
 Fix single wallet operations
+
+0.0.50 (2050-05-09)
+-------------------
+
+Merge dev branch, several new features to doc
+Update to supply calculation

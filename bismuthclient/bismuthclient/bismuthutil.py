@@ -8,7 +8,7 @@ import base64
 import polysign.signerfactory
 from decimal import Decimal
 
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
 def checksum(string, legacy=True):
     """ Base 64 checksum of MD5. Used by bisurl"""
@@ -43,14 +43,28 @@ class BismuthUtil():
     @staticmethod
     def height_to_supply(height):
         """Gives total supply at a given block height"""
-        R0 = 11680000.4
-        delta = 2e-6
-        pos = 0.8
-        pow = 12.6
-        N = height - 8e5
-        dev_rew = 1.1
-        R = dev_rew * R0 + N * (pos + dev_rew * (pow - N / 2 * delta))
+        if height <= 1450000:
+            R0 = 11680000.4
+            delta = 2e-6
+            pos = 0.8
+            pow = 12.6
+            N = height - 8e5
+            dev_rew = 1.1
+            R = dev_rew * R0 + N * (pos + dev_rew * (pow - N / 2 * delta))
+        else:
+            # select sum(reward) from transactions where block_height>0 and block_height<=1450000;
+            R0 = 19061426.9635592
+            # select sum(amount) from transactions where recipient='3e08b5538a4509d9daa99e01ca5912cda3e98a7f79ca01248c2bde16' and block_height>=-1450000;
+            R1 = 920008
+            delta1 = 91e-8
+            delta2 = 33e-8
+            pos = 2.4
+            pow = 5.5
+            N = height - 1450000
+            dev_rew = 1.1
+            R = dev_rew * R0 + R1 + N * ((pos - N / 2 * delta2) + dev_rew * (pow - N / 2 * delta1))
         return R
+
 
     @staticmethod
     def create_bis_url(recipient, amount, operation, openfield, legacy=True):
