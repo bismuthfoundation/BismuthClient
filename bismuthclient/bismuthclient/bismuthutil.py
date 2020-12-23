@@ -10,6 +10,7 @@ from decimal import Decimal
 
 __version__ = '0.0.6'
 
+
 def checksum(string, legacy=True):
     """ Base 64 checksum of MD5. Used by bisurl"""
     if legacy:
@@ -20,6 +21,7 @@ def checksum(string, legacy=True):
         m = hashlib.blake2b(digest_size=4)
         m.update(string.encode("utf-8"))
         return base64.urlsafe_b64encode(m.digest()).decode("utf-8")
+
 
 class BismuthUtil():
     """Static helper utils"""
@@ -80,14 +82,16 @@ class BismuthUtil():
             command = "pay"
             openfield_b85_encode = base64.b85encode(openfield.encode("utf-8")).decode("utf-8")
             operation_b85_encode = base64.b85encode(operation.encode("utf-8")).decode("utf-8")
-            url_partial = "bis://{}/{}/{}/{}/{}/".format(command, recipient, amount, operation_b85_encode, openfield_b85_encode)
+            url_partial = "bis://{}/{}/{}/{}/{}/".format(command, recipient, amount,
+                                                         operation_b85_encode, openfield_b85_encode)
             url_constructed = url_partial + checksum(url_partial)
             return url_constructed
 
         else:
             openfield_b64_encode = base64.urlsafe_b64encode(openfield.encode("utf-8")).decode("utf-8")
             operation_b64_encode = base64.urlsafe_b64encode(operation.encode("utf-8")).decode("utf-8")
-            url_partial = "bis://{}/{}/{}/{}/".format(recipient, amount, operation_b64_encode, openfield_b64_encode)
+            url_partial = "bis://{}/{}/{}/{}/".format(recipient, amount,
+                                                      operation_b64_encode, openfield_b64_encode)
             url_constructed = url_partial + checksum(url_partial, legacy=False)
             return url_constructed
 
@@ -98,12 +102,14 @@ class BismuthUtil():
         """
         if legacy:
             url_split = url.split("/")
-            reconstruct = "bis://{}/{}/{}/{}/{}/".format(url_split[2], url_split[3], url_split[4], url_split[5], url_split[6], url_split[7])
+            reconstruct = "bis://{}/{}/{}/{}/{}/".format(url_split[2], url_split[3], url_split[4],
+                                                         url_split[5], url_split[6], url_split[7])
             operation_b85_decode = base64.b85decode(url_split[5]).decode("utf-8")
             openfield_b85_decode = base64.b85decode(url_split[6]).decode("utf-8")
 
             if checksum(reconstruct) == url_split[7]:
-                url_deconstructed = {"recipient": url_split[3], "amount": url_split[4], "operation": operation_b85_decode,
+                url_deconstructed = {"recipient": url_split[3], "amount": url_split[4],
+                                     "operation": operation_b85_decode,
                                      "openfield": openfield_b85_decode}
                 return url_deconstructed
             else:
@@ -111,12 +117,14 @@ class BismuthUtil():
 
         else:
             url_split = url.split("/")
-            reconstruct = "bis://{}/{}/{}/{}/".format(url_split[2], url_split[3], url_split[4], url_split[5], url_split[6])
+            reconstruct = "bis://{}/{}/{}/{}/".format(url_split[2], url_split[3], url_split[4],
+                                                      url_split[5], url_split[6])
             operation_b64_decode = base64.urlsafe_b64decode(url_split[4]).decode("utf-8")
             openfield_b64_decode = base64.urlsafe_b64decode(url_split[5]).decode("utf-8")
 
             if checksum(reconstruct, legacy=False) == url_split[6]:
-                url_deconstructed = {"recipient": url_split[2], "amount": url_split[3], "operation": operation_b64_decode,
+                url_deconstructed = {"recipient": url_split[2], "amount": url_split[3],
+                                     "operation": operation_b64_decode,
                                      "openfield": openfield_b64_decode}
                 return url_deconstructed
             else:
@@ -130,6 +138,7 @@ class BismuthUtil():
             return BismuthUtil.read_url(url, legacy=True)
         else:
             return BismuthUtil.read_url(url, legacy=False)
+
 
 if __name__ == "__main__":
     #tests
