@@ -17,6 +17,12 @@ def test_encode_bis_url_legacy(verbose=False):
     openfield = "test:1"
     bis_url = BismuthUtil.create_bis_url(recipient, amount, operation, openfield, legacy=True)
     assert bis_url == "bis://pay/8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742/1.234/bZ={AZaQ>wVQzC~WpV/bY*jNIxz/>H!cQZ*|L=^XYba0XP&1"
+    recipient = "8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742"
+    amount = "1.234"
+    operation = "token:transfer"
+    openfield = 'test:1:{"Message":"Test message"}'
+    bis_url = BismuthUtil.create_bis_url(recipient, amount, operation, openfield, legacy=True)
+    assert bis_url == "bis://pay/8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742/1.234/bZ={AZaQ>wVQzC~WpV/bY*jNIx#wXB28s;b75y?B03^eWpi{OZDn(FVP|C`eE/#04XIp(|p18$+t~x+8E0"
 
 
 def test_encode_bis_url_new(verbose=False):
@@ -32,6 +38,12 @@ def test_encode_bis_url_new(verbose=False):
     openfield = "test:1"
     bis_url = BismuthUtil.create_bis_url(recipient, amount, operation, openfield, legacy=False)
     assert bis_url == "bis://8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742/1.234/dG9rZW46dHJhbnNmZXI=/dGVzdDox/ldW-ig=="
+    recipient = "8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742"
+    amount = "1.234"
+    operation = "token:transfer"
+    openfield = 'test:1:{"Message":"Test message"}'
+    bis_url = BismuthUtil.create_bis_url(recipient, amount, operation, openfield, legacy=True)
+    assert bis_url == "bis://pay/8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742/1.234/bZ={AZaQ>wVQzC~WpV/bY*jNIx#wXB28s;b75y?B03^eWpi{OZDn(FVP|C`eE/#04XIp(|p18$+t~x+8E0"
 
 
 def test_decode_bis_url_legacy(verbose=False):
@@ -55,6 +67,12 @@ def test_decode_bis_url_legacy(verbose=False):
     if verbose:
         print(decoded)
     assert "Error" in decoded
+    bis_url = "bis://pay/8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742/1.234/bZ={AZaQ>wVQzC~WpV/bY*jNIx#wXB28s;b75y?B03^eWpi{OZDn(FVP|C`eE/#04XIp(|p18$+t~x+8E0"
+    decoded = BismuthUtil.read_url(bis_url, legacy=True)
+    assert decoded['recipient'] == "8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742"
+    assert decoded['amount'] == "1.234"
+    assert decoded['operation'] == "token:transfer"
+    assert decoded['openfield'] == 'test:1:{"Message":"Test message"}'
 
 
 def test_decode_bis_url_new(verbose=False):
@@ -78,6 +96,12 @@ def test_decode_bis_url_new(verbose=False):
     if verbose:
         print("new", decoded)
     assert "Error" in decoded
+    bis_url = "bis://pay/8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742/1.234/bZ={AZaQ>wVQzC~WpV/bY*jNIx#wXB28s;b75y?B03^eWpi{OZDn(FVP|C`eE/#04XIp(|p18$+t~x+8E0"
+    decoded = BismuthUtil.read_url(bis_url, legacy=True)
+    assert decoded['recipient'] == "8342c1610de5d7aa026ca7ae6d21bd99b1b3a4654701751891f08742"
+    assert decoded['amount'] == "1.234"
+    assert decoded['operation'] == "token:transfer"
+    assert decoded['openfield'] == 'test:1:{"Message":"Test message"}'
 
 
 if __name__ == "__main__":
