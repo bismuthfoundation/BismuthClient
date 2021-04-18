@@ -7,8 +7,11 @@ import hashlib
 import base64
 import polysign.signerfactory
 from decimal import Decimal
+from Cryptodome.Random import get_random_bytes
+from random import randint
 
-__version__ = '0.0.6'
+
+__version__ = '0.0.7'
 
 
 def checksum(string, legacy=True):
@@ -139,9 +142,46 @@ class BismuthUtil():
         else:
             return BismuthUtil.read_url(url, legacy=False)
 
+    @staticmethod
+    def sublimate(key: str, parts_count: int) -> dict:
+        """Not optimized. xor key splitting with keylen entropy"""
+        key = key.encode()
+        seed = randint(100, 200)
+        _ = get_random_bytes(seed)
+        key_len = len(key)
+        parts = []
+        for i in range(parts_count -1):
+            parts.append(get_random_bytes(key_len))
+        parts.append(key)  # last one
+        final = b""
+        for i in range(key_len):
+            temp = parts[0][i]
+            for j in range(1, parts_count):
+                temp = temp ^ parts[j][i]
+            final += temp.to_bytes(1, byteorder="big")
+        parts[parts_count - 1] = final
+        hash = hashlib.blake2b(digest_size=4)
+        hash.update(key)
+        return {"count": parts_count, "parts": parts, "hash": hash.hexdigest()}
+
+    @staticmethod
+    def condensate(parts: tuple) -> str:
+        key_len = len(parts[0])
+        parts_count = len(parts)
+        final = b""
+        for i in range(key_len):
+            temp = parts[0][i]
+            for j in range(1, parts_count):
+                temp = temp ^ parts[j][i]
+            final += temp.to_bytes(1, byteorder="big")
+        hash = hashlib.blake2b(digest_size=4)
+        hash.update(final)
+        final = final.decode()
+        return {"key": final, "hash": hash.hexdigest()}
+
 
 if __name__ == "__main__":
-    #tests
+    # tests
     url = BismuthUtil.create_bis_url("recipient", 2, "operation", "openfield", legacy=False)
     print(url)
 

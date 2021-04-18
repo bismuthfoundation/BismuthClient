@@ -169,8 +169,16 @@ First support for other crypto schemes, include polysign.
 
 Fix single wallet operations
 
-0.0.50 (2050-05-09)
+0.0.50 (2020-05-09)
 -------------------
 
 Merge dev branch, several new features to doc
 Update to supply calculation
+
+0.0.51 (2021-04-18)
+-------------------
+
+Support for very old style privkey.der wallets
+New feature: sublimate and condensate utils, to split privkveys into several chunks.
+All chunks are then needed to rebuild the key.
+

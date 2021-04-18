@@ -29,7 +29,7 @@ from polysign.signerfactory import SignerFactory
 from typing import Union
 
 
-__version__ = '0.0.24'
+__version__ = '0.0.25'
 
 
 def ecdsa_pk_to_signer(private_key: str):
