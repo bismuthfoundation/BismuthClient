@@ -3,7 +3,7 @@ A class encapsulating a Bismuth wallet (keys, address, crypto functions)
 
 This is a wallet.json file that can embed many different addresses/keys and is globally encrypted by a master password.
 
-WIP
+
 """
 
 from base64 import b64encode, b64decode
@@ -20,9 +20,10 @@ from Cryptodome.PublicKey import RSA
 # from Cryptodome.Hash import SHA256
 # import getpass
 # import hashlib
+from hashlib import sha224
 import os, sys
 
-__version__ = '0.0.62'
+__version__ = '0.0.63'
 
 
 class BismuthMultiWallet():
@@ -59,17 +60,34 @@ class BismuthMultiWallet():
             pass
         return info
         """
-        info = {'file': wallet_file, 'address': '', 'encrypted': False}
+        info = {'file': wallet_file, 'address': '', 'encrypted': False, 'old': False}
+
         try:
             with open(wallet_file, 'r') as f:
-                content = json.load(f)
-            info['address'] = content['Address']  # Warning case change!!!
-            try:
-                key = RSA.importKey(content['Private Key'])
-                info['encrypted'] = False
-            except:  # encrypted
-                info['encrypted'] = True
-        except:
+                line1 = f.readline()
+                if line1.startswith("-----BEGIN RSA PRIVATE KEY-----"):
+                    print(wallet_file, "OLD")
+                    info["old"] = True
+            if info["old"]:
+                with open(wallet_file, 'r') as f:
+                    content = f.read()
+                    key = RSA.importKey(content)
+                    public_key_readable = key.publickey().exportKey().decode("utf-8")
+                    address = sha224(public_key_readable.encode("utf-8")).hexdigest()  # hashed public key
+                info["address"] = address
+            else:
+                with open(wallet_file, 'r') as f:
+                    content = json.load(f)
+                info['address'] = content['Address']  # Warning case change!!!
+                try:
+                    # This is a validity check, will break if not a proper rsa key
+                    key = RSA.importKey(content['Private Key'])
+                    info['encrypted'] = False
+                except:  # encrypted
+                    info['encrypted'] = True
+        except Exception as e:
+            print(f"Error reading {wallet_file}: {e}")
+            print(e)
             pass
         return info
 
@@ -275,19 +293,32 @@ class BismuthMultiWallet():
 
     def get_der_key(self, wallet_file: str='wallet.der', password: str=''):
         try:
+            old = False
             with open(wallet_file, 'r') as f:
-                content = json.load(f)
-                address = content['Address']  # Warning case change!!!
-                if password:
-                    content['Private Key'] = decrypt(password,b64decode(content['Private Key'])).decode('utf-8')
-
-                key = RSA.importKey(content['Private Key'])
-                public_key = content['Public Key']
-                private_key = content['Private Key']
-                address = content["Address"]
-                # TODO: check that address matches rebuilded pubkey
-                return {"private_key": private_key, "public_key": public_key, "address": address, "label":'',
+                line1 = f.readline()
+                if line1.startswith("-----BEGIN RSA PRIVATE KEY-----"):
+                    # print(wallet_file, "OLD")
+                    old = True
+            if old:
+                with open(wallet_file, 'r') as f:
+                    content = f.read()
+                    key = RSA.importKey(content)
+                    public_key_readable = key.publickey().exportKey().decode("utf-8")
+                    address = sha224(public_key_readable.encode("utf-8")).hexdigest()  # hashed public key
+                return {"private_key": content, "public_key": public_key_readable, "address": address, "label": '',
                         'timestamp': int(time())}
+            else:
+                with open(wallet_file, 'r') as f:
+                    content = json.load(f)
+                    if password:
+                        content['Private Key'] = decrypt(password,b64decode(content['Private Key'])).decode('utf-8')
+                    key = RSA.importKey(content['Private Key'])
+                    public_key = content['Public Key']
+                    private_key = content['Private Key']
+                    address = content["Address"]
+                    # TODO: check that address matches rebuilded pubkey
+                    return {"private_key": private_key, "public_key": public_key, "address": address, "label":'',
+                            'timestamp': int(time())}
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
