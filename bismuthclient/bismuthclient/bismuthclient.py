@@ -20,7 +20,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.51'
+__version__ = '0.0.52'
 
 # Hardcoded list of addresses that need a message, like exchanges.
 # qtrade, tradesatoshi, old cryptopia, graviex

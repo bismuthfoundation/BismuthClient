@@ -145,7 +145,12 @@ class BismuthUtil():
     @staticmethod
     def sublimate(key: str, parts_count: int) -> dict:
         """Not optimized. xor key splitting with keylen entropy"""
-        key = key.encode()
+        try:
+            # If hex only, encode as binary
+            key = bytes.fromhex(key)
+        except Exception as e:
+            # else as is
+            key = key.encode()
         seed = randint(100, 200)
         _ = get_random_bytes(seed)
         key_len = len(key)
@@ -176,7 +181,12 @@ class BismuthUtil():
             final += temp.to_bytes(1, byteorder="big")
         hash = hashlib.blake2b(digest_size=4)
         hash.update(final)
-        final = final.decode()
+        try:
+            # Try to interpret as text
+            final = final.decode()
+        except Exception as e:
+            # if not, was binary
+            final = final.hex()
         return {"key": final, "hash": hash.hexdigest()}
 
 

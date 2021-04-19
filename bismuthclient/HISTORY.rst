@@ -182,3 +182,8 @@ Support for very old style privkey.der wallets
 New feature: sublimate and condensate utils, to split privkveys into several chunks.
 All chunks are then needed to rebuild the key.
 
+0.0.52 (2021-04-19)
+-------------------
+
+Sublimate tweak
+
