@@ -187,3 +187,8 @@ All chunks are then needed to rebuild the key.
 
 Sublimate tweak
 
+0.0.53 (2023-11-15)
+-------------------
+
+Added backup API
+
