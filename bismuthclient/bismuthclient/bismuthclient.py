@@ -20,7 +20,7 @@ from bismuthclient import lwbench
 from bismuthclient.bismuthformat import TxFormatter, AmountFormatter
 from os import path, scandir
 
-__version__ = '0.0.53'
+__version__ = '0.0.54'
 
 # Hardcoded list of addresses that need a message, like exchanges.
 # qtrade, tradesatoshi, old cryptopia, graviex
@@ -182,7 +182,7 @@ class BismuthClient():
         if not self.address or not self._wallet:
             return []
         try:
-            key = "tx{}-{}".format(num, offset)
+            key = "tx:{}:{}:{}:{}".format(self.address, num, offset, int(bool(mempool_included)))
             cached = self._get_cached(key)
             if cached:
                 return cached
@@ -191,12 +191,16 @@ class BismuthClient():
             else:
                 transactions = self.command("addlistlimfrom", [self.address, num, offset])
             if mempool_included:
-                transactions_mempool = self.command("mpgetfor", [self.address])
-                transactions_mempool.extend(transactions)
-                transactions = transactions_mempool
+                try:
+                    transactions_mempool = self.command("mpgetfor", [self.address], timeout=2)
+                    transactions_mempool.extend(transactions)
+                    transactions = transactions_mempool
+                except Exception as e:
+                    self.app_log.warning("Error {} mpgetfor {}".format(str(e), self.address))
             # print(transactions)
-        except:
+        except Exception as e:
             # TODO: Handle retry, at least error message.
+            self.app_log.warning("Error {} latest_transactions {}".format(str(e), self.address))
             transactions = []
 
         #json = [dict(zip(["block_height", "timestamp", "address", "recipient", "amount", "signature", "public_key", "block_hash", "fee", "reward", "operation", "openfield"], tx)) for tx in transactions]
@@ -212,11 +216,12 @@ class BismuthClient():
         if not self.address or not self._wallet:
             return 'N/A'
         try:
-            balance = self._get_cached('balance')
+            balance_key = 'balance:{}'.format(self.address)
+            balance = self._get_cached(balance_key)
             if not balance:
                 balance = self.command("balanceget", [self.address])[0]
-                self._set_cache('balance', balance)
-                balance = self._get_cached('balance')
+                self._set_cache(balance_key, balance)
+                balance = self._get_cached(balance_key)
         except Exception as e:
             self.app_log.error(e)
             return 'N/A'
@@ -533,7 +538,7 @@ class BismuthClient():
         self._connection = rpcconnections.Connection(ipport, verbose=self.verbose)
         return ipport
 
-    def command(self, command, options=None):
+    def command(self, command, options=None, timeout=None):
         """
         Makes sure we have a connection, runs a command and sends back the result.
 
@@ -546,4 +551,6 @@ class BismuthClient():
             self.get_server()
         if self.verbose:
             print("command {}, {}".format(command, options))
-        return self._connection.command(command, options)
+        if timeout is None:
+            return self._connection.command(command, options)
+        return self._connection.command(command, options, timeout=timeout)

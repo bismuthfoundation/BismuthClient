@@ -128,7 +128,7 @@ class Connection(object):
             self.close()
             raise RuntimeError("Connections: {}".format(e))
 
-    def command(self, command, options=None):
+    def command(self, command, options=None, timeout=LTIMEOUT):
         """
         Sends a command and return its raw result.
         options has to be a list.
@@ -140,7 +140,7 @@ class Connection(object):
                 if options:
                     for option in options:
                         self._send(option, retry=False)
-                ret = self._receive()
+                ret = self._receive(timeout=timeout)
                 return ret
             except Exception as e:
                 """
@@ -157,7 +157,7 @@ class Connection(object):
                 if options:
                     for option in options:
                         self._send(option, retry=False)
-                ret = self._receive()
+                ret = self._receive(timeout=timeout)
                 return ret
 
     def close(self):

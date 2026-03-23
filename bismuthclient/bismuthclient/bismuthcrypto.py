@@ -39,6 +39,13 @@ def ecdsa_pk_to_signer(private_key: str):
     return signer.to_dict()
 
 
+def ed25519_pk_to_signer(private_key: str):
+    signer_type = SignerType.ED25519
+    subtype = SignerSubType.MAINNET_REGULAR
+    signer = SignerFactory.from_seed(private_key, signer_type, subtype=subtype)
+    return signer.to_dict()
+
+
 def sign_rsa(timestamp, address, recipient, amount, operation, openfield, key, public_key_hashed):
     if not key:
         raise BaseException("The wallet is locked, you need to provide a decrypted key")
@@ -103,6 +110,17 @@ def sign_with_ecdsa_key(timestamp: float, address: str, recipient: str, amount: 
     subtype = SignerSubType.MAINNET_REGULAR
     signer = SignerFactory.from_seed(key, signer_type, subtype=subtype)
     signature = signer.sign_buffer_for_bis(as_string)  #
+    return signature
+
+
+def sign_with_ed25519_key(timestamp: float, address: str, recipient: str, amount: float, operation: str, openfield: str, key) -> Union[str, bool]:
+    # Sign with key - This is a helper function
+    # Returns the encoded sig as a byte string
+    as_string = stringify_transaction(timestamp, address, recipient, amount, operation, openfield)
+    signer_type = SignerType.ED25519
+    subtype = SignerSubType.MAINNET_REGULAR
+    signer = SignerFactory.from_seed(key, signer_type, subtype=subtype)
+    signature = signer.sign_buffer_for_bis(as_string)
     return signature
 
 
@@ -230,6 +248,40 @@ def keys_gen(password: str='', salt: str='', count=10000, verbose=False):
     address = hashlib.sha224(public_key_readable.encode("utf-8")).hexdigest()  # hashed public key
     # export to single file
     return {'private_key': private_key_readable, 'public_key': public_key_readable, 'address': address}
+
+
+def keys_gen_ed25519(password: str='', salt: str='', count=10000):
+    """
+    Optionally deterministic ED25519 key generation from password and salt.
+    """
+    if password:
+        seed = PBKDF2(password, salt, dkLen=32, count=count)
+    else:
+        seed = get_random_bytes(32)
+    signer = ed25519_pk_to_signer(seed.hex())
+    return {
+        'private_key': signer['private_key'],
+        'public_key': signer['public_key'],
+        'address': signer['address'],
+        'type': 'ED25519',
+    }
+
+
+def keys_gen_ecdsa(password: str='', salt: str='', count=10000):
+    """
+    Optionally deterministic ECDSA key generation from password and salt.
+    """
+    if password:
+        seed = PBKDF2(password, salt, dkLen=32, count=count)
+    else:
+        seed = get_random_bytes(32)
+    signer = ecdsa_pk_to_signer(seed.hex())
+    return {
+        'private_key': signer['private_key'],
+        'public_key': signer['public_key'],
+        'address': signer['address'],
+        'type': 'ECDSA',
+    }
 
 
 def keys_save(private_key_readable, public_key_readable, address, file):

@@ -239,11 +239,16 @@ class BismuthMultiWallet():
         """
         Add a new address to the wallet (and save it)
         """
-        if type != "RSA":
-            raise RuntimeError("Only RSA is available for now")
         if self._infos['encrypted'] and self._locked:
             raise RuntimeError("Wallet must be unlocked")
-        keys = bismuthcrypto.keys_gen(password=password, salt=salt)
+        if type == "RSA":
+            keys = bismuthcrypto.keys_gen(password=password, salt=salt)
+        elif type == "ECDSA":
+            keys = bismuthcrypto.keys_gen_ecdsa(password=password, salt=salt)
+        elif type == "ED25519":
+            keys = bismuthcrypto.keys_gen_ed25519(password=password, salt=salt)
+        else:
+            raise RuntimeError("Only RSA, ECDSA and ED25519 are available for now")
         keys['label'] = label
         keys['timestamp'] = int(time())
         self._addresses.append(keys)
@@ -344,6 +349,11 @@ class BismuthMultiWallet():
             self.key_type = "ECDSA"
             self.key = key['private_key']
             self.public_key = key['public_key']
+        elif key_type == "ED25519":
+            self.key_type = "ED25519"
+            signer = bismuthcrypto.ed25519_pk_to_signer(key['private_key'])
+            self.key = signer['private_key']
+            self.public_key = key.get('public_key', signer['public_key'])
         else:
             raise RuntimeError("Unknown address type")
         self._address = address
@@ -434,6 +444,48 @@ class BismuthMultiWallet():
             self._data['addresses'].append(key)
         self.save()
 
+    def get_ed25519_key(self, private_key: str):
+        """
+        Returns a key dict from an ED25519 private key seed hex string.
+        """
+        if len(private_key) != 64:
+            raise RuntimeWarning("Error importing the ED25519 pk, len != 64")
+        try:
+            signer = bismuthcrypto.ed25519_pk_to_signer(private_key)
+            return {
+                "private_key": private_key,
+                "public_key": signer['public_key'],
+                "address": signer["address"],
+                "label": '',
+                'timestamp': int(time()),
+                'type': 'ED25519',
+            }
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            return None
+
+    def import_ed25519_pk(self, private_key: str, label: str=''):
+        """Import an ED25519 private key seed into the wallet"""
+        if self._infos['encrypted'] and self._locked:
+            raise RuntimeError("Wallet must be unlocked")
+        key = self.get_ed25519_key(private_key)
+        if not key:
+            raise RuntimeWarning("Error importing the ED25519 pk.")
+        key['label'] = label
+        if self.is_address_in_wallet(key['address']):
+            raise RuntimeError("Duplicate address")
+        self._addresses.append(key)
+        if self._infos['encrypted']:
+            content = json.dumps(key)
+            encrypted = b64encode(encrypt(self._master_password, content, level=1)).decode('utf-8')
+            self._data['addresses'].append(encrypted)
+        else:
+            print('1')
+            self._data['addresses'].append(key)
+        self.save()
+
     def sign_encoded(self, timestamp: float, address:str, recipient:str, amount:float, operation:str, data:str) -> str:
         if address != self._address:
             raise RuntimeWarning("Address mismatch {} vs {}".format(address, self._address))
@@ -442,6 +494,8 @@ class BismuthMultiWallet():
             signature_enc = bismuthcrypto.sign_with_key(timestamp, address, recipient, amount, operation, data, self.key)
         elif self.key_type == 'ECDSA':
             signature_enc = bismuthcrypto.sign_with_ecdsa_key(timestamp, address, recipient, amount, operation, data, self.key)
+        elif self.key_type == 'ED25519':
+            signature_enc = bismuthcrypto.sign_with_ed25519_key(timestamp, address, recipient, amount, operation, data, self.key)
         else:
             raise RuntimeWarning("Error unknown key type")
         return signature_enc
