@@ -1,0 +1,36 @@
+{
+    "salt": "sVa+xT(r9X*BxBuOa>H0",
+    "spend": {
+        "type": null,
+        "value": null
+    },
+    "version": "0.0.63",
+    "coin": "bis",
+    "encrypted": false,
+    "addresses": [
+        {
+            "private_key": "28f76c7e2c9265cfb4daa54e07194425eeadb39a9be735c8e3211da1cd839554",
+            "public_key": "02e10978df51c4a5f5cc2120c173911de95e49660c542332122272987b53a99bc4",
+            "address": "Bis1HJj7wewc4KUMDnsZu5EFcfDrrBzCxLbXS",
+            "type": "ECDSA",
+            "label": "ecdsa1",
+            "timestamp": 1774182727
+        },
+        {
+            "private_key": "28f76c7e2c9265cfb4daa54e07194425eeadb39a9be735c8e3211da1cd839554",
+            "public_key": "02e10978df51c4a5f5cc2120c173911de95e49660c542332122272987b53a99bc4",
+            "address": "Bis1HJj7wewc4KUMDnsZu5EFcfDrrBzCxLbXS",
+            "type": "ECDSA",
+            "label": "ecdsa1",
+            "timestamp": 1774182737
+        },
+        {
+            "private_key": "28f76c7e2c9265cfb4daa54e07194425eeadb39a9be735c8e3211da1cd839554",
+            "public_key": "02e10978df51c4a5f5cc2120c173911de95e49660c542332122272987b53a99bc4",
+            "address": "Bis1HJj7wewc4KUMDnsZu5EFcfDrrBzCxLbXS",
+            "type": "ECDSA",
+            "label": "ecdsa1",
+            "timestamp": 1774182747
+        }
+    ]
+}

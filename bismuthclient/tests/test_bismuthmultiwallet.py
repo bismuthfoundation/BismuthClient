@@ -10,6 +10,7 @@ Warning: NEVER use the test addresses or seed, as they are public!
 import pytest
 import sys
 import os
+import base64
 
 sys.path.append('../')
 from bismuthclient.bismuthmultiwallet import BismuthMultiWallet
@@ -29,6 +30,10 @@ def test0_ainit():
         pass
     try:
         os.remove("tmp/wallet3.json")
+    except:
+        pass
+    try:
+        os.remove("tmp/wallet_ed25519.json")
     except:
         pass
 
@@ -69,6 +74,36 @@ def test4b_addto_encrypted_multiwallet():
     wallet.new_address(label="ad2", password="2", salt="2")  # Will auto save
     for address in wallet._addresses:
         print(address['address'])
+
+
+def test5_ed25519_address_signing():
+    wallet = BismuthMultiWallet("tmp/wallet_ed25519.json", seed="seed-ed25519")
+    wallet.new_address(label="ed1", password="ed25519-password", salt="ed25519-salt", type="ED25519")
+    address = wallet._addresses[0]['address']
+    assert address.startswith('Bis')
+    assert wallet._addresses[0]['type'] == 'ED25519'
+
+    wallet.set_address(address)
+    pubkey = wallet.get_encoded_pubkey()
+    assert len(base64.b64decode(pubkey)) == 32
+
+    signature = wallet.sign_encoded(1234567890.12, address, "bis-recipient", 1.25, "operation", "openfield")
+    assert len(base64.b64decode(signature)) == 64
+
+
+def test6_ecdsa_address_signing():
+    wallet = BismuthMultiWallet("tmp/wallet_ecdsa.json", seed="seed-ecdsa")
+    wallet.new_address(label="ecdsa1", password="ecdsa-password", salt="ecdsa-salt", type="ECDSA")
+    address = wallet._addresses[0]['address']
+    assert address
+    assert wallet._addresses[0]['type'] == 'ECDSA'
+
+    wallet.set_address(address)
+    pubkey = wallet.get_encoded_pubkey()
+    assert len(base64.b64decode(pubkey)) == 33
+
+    signature = wallet.sign_encoded(1234567890.12, address, "bis-recipient", 1.25, "operation", "openfield")
+    assert len(base64.b64decode(signature)) > 0
 
 
 if __name__ == "__main__":

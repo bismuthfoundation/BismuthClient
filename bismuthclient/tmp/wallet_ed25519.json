@@ -1,0 +1,52 @@
+{
+    "salt": "DJ<R|?H@v-n7l1zTFI",
+    "spend": {
+        "type": null,
+        "value": null
+    },
+    "version": "0.0.63",
+    "coin": "bis",
+    "encrypted": false,
+    "addresses": [
+        {
+            "private_key": "b69594e0e23fdab5de46898e844af788bcf98b31143a6bf953f0632cb32b42ed",
+            "public_key": "8d62d607d0e1d6bd315cc9e02616aadfb40f4a1f6e285e3146e09e23dd99258f",
+            "address": "Bis12VmJqV5dgR5nfWJM8vGsh5KThMZGKdtCYLVs4Sx5N5M6hocEzu",
+            "type": "ED25519",
+            "label": "ed1",
+            "timestamp": 1774179164
+        },
+        {
+            "private_key": "b69594e0e23fdab5de46898e844af788bcf98b31143a6bf953f0632cb32b42ed",
+            "public_key": "8d62d607d0e1d6bd315cc9e02616aadfb40f4a1f6e285e3146e09e23dd99258f",
+            "address": "Bis12VmJqV5dgR5nfWJM8vGsh5KThMZGKdtCYLVs4Sx5N5M6hocEzu",
+            "type": "ED25519",
+            "label": "ed1",
+            "timestamp": 1774179173
+        },
+        {
+            "private_key": "b69594e0e23fdab5de46898e844af788bcf98b31143a6bf953f0632cb32b42ed",
+            "public_key": "8d62d607d0e1d6bd315cc9e02616aadfb40f4a1f6e285e3146e09e23dd99258f",
+            "address": "Bis12VmJqV5dgR5nfWJM8vGsh5KThMZGKdtCYLVs4Sx5N5M6hocEzu",
+            "type": "ED25519",
+            "label": "ed1",
+            "timestamp": 1774182727
+        },
+        {
+            "private_key": "b69594e0e23fdab5de46898e844af788bcf98b31143a6bf953f0632cb32b42ed",
+            "public_key": "8d62d607d0e1d6bd315cc9e02616aadfb40f4a1f6e285e3146e09e23dd99258f",
+            "address": "Bis12VmJqV5dgR5nfWJM8vGsh5KThMZGKdtCYLVs4Sx5N5M6hocEzu",
+            "type": "ED25519",
+            "label": "ed1",
+            "timestamp": 1774182737
+        },
+        {
+            "private_key": "b69594e0e23fdab5de46898e844af788bcf98b31143a6bf953f0632cb32b42ed",
+            "public_key": "8d62d607d0e1d6bd315cc9e02616aadfb40f4a1f6e285e3146e09e23dd99258f",
+            "address": "Bis12VmJqV5dgR5nfWJM8vGsh5KThMZGKdtCYLVs4Sx5N5M6hocEzu",
+            "type": "ED25519",
+            "label": "ed1",
+            "timestamp": 1774182747
+        }
+    ]
+}
